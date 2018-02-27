@@ -20,5 +20,5 @@ defmodule TimerWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :api
+  use Gettext, otp_app: :timer
 end

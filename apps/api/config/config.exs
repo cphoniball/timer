@@ -6,12 +6,12 @@
 use Mix.Config
 
 # General application configuration
-config :api,
+config :timer,
   namespace: Timer,
   ecto_repos: [Timer.Repo]
 
 # Configures the endpoint
-config :api, TimerWeb.Endpoint,
+config :timer, TimerWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "90cyj10OC3zQNnoXYVybc81OLPX1JTL1/5BI6BEWD+Ow0o37IQ7PEaImtBVQcvbu",
   render_errors: [view: TimerWeb.ErrorView, accepts: ~w(json)],

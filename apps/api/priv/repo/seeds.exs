@@ -9,3 +9,15 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Timer.Factory
+
+Timer.Repo.insert!(%Timer.User{
+  name: "Chris",
+  email: "chris@chrishoniball.com",
+  password: Comeonin.Argon2.hashpwsalt("password")
+})
+
+for _ <- 1..30, do: Factory.user()
+
+

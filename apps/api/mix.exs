@@ -3,7 +3,7 @@ defmodule Timer.Mixfile do
 
   def project do
     [
-      app: :api,
+      app: :timer,
       version: "0.0.1",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -20,7 +20,12 @@ defmodule Timer.Mixfile do
   def application do
     [
       mod: {Timer.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [
+        :ex_machina,
+        :faker,
+        :logger,
+        :runtime_tools
+      ]
     ]
   end
 
@@ -38,7 +43,11 @@ defmodule Timer.Mixfile do
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:comeonin, "~> 4.0"},
+      {:argon2_elixir, "~> 1.2"},
+      {:ex_machina, "~> 2.1"},
+      {:faker, "~> 0.9"}
     ]
   end
 

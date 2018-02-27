@@ -1,11 +1,11 @@
 defmodule TimerWeb.Router do
   use TimerWeb, :router
 
-  pipeline :api do
+  pipeline :timer do
     plug :accepts, ["json"]
   end
 
   scope "/api", TimerWeb do
-    pipe_through :api
+    pipe_through :timer
   end
 end
