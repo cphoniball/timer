@@ -5,7 +5,9 @@ defmodule TimerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", TimerWeb do
+  scope "/", TimerWeb do
     pipe_through :timer
+
+    get "/", ApiController, :index
   end
 end
