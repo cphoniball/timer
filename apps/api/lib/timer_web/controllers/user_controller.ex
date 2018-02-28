@@ -8,8 +8,8 @@ defmodule TimerWeb.UserController do
     render(conn, "index.json", %{users: users})
   end
 
-  # TODO: Figure out the conventional way to specify serialization strategies for ecto models
-  defp transform_users(users) do
-    Enum.map(users, fn (user) ->  end)
+  def show(conn, %{"user_id" => user}) do
+    user = Repo.get(User, user)
+    render(conn, "show.json", %{user: user})
   end
 end
