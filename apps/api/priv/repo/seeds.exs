@@ -19,5 +19,3 @@ Timer.Repo.insert!(%Timer.User{
 })
 
 for _ <- 1..30, do: Factory.user()
-
-

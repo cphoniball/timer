@@ -9,5 +9,6 @@ defmodule TimerWeb.Router do
     pipe_through :timer
 
     get "/", ApiController, :index
+    get "/users", UserController, :index
   end
 end

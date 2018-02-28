@@ -3,10 +3,11 @@ defmodule Timer.User do
   import Ecto.Changeset
   alias Timer.User
 
-
   schema "users" do
     field :email, :string
     field :name, :string
+    # TODO: Look into defining an ecto type to automatically cast the password to a hashed value
+    # https://hexdocs.pm/ecto/Ecto.Type.html#content
     field :password, :string
 
     timestamps()
