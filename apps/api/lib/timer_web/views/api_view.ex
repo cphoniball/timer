@@ -9,7 +9,7 @@ defmodule TimerWeb.ApiView do
   """
 
   def render("success.json", %{data: data, status: status}) do
-    %{status: code(status), data: data}
+    %{status: code(status), data: data, errors: nil}
   end
 
   def render("success.json", %{data: data}) do
