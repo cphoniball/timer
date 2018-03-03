@@ -8,7 +8,7 @@ defmodule TimerWeb.ApiView do
   responses from the API
   """
 
-  def success() do
+  def success(data) do
     render("success.json", data)
   end
 

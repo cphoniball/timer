@@ -13,7 +13,8 @@ config :logger, level: :warn
 config :timer, Timer.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
-  database: "api_test",
+  password: "root",
+  database: "timer-test",
   hostname: "localhost",
+  port: 7432,
   pool: Ecto.Adapters.SQL.Sandbox
