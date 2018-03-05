@@ -19,4 +19,16 @@ defmodule TimerWeb.UserController do
         |> render(ApiView, "not_found.json", %{message: "Could not find that user."})
     end
   end
+
+  def create(conn, %{"name" => name, "password" => password, "email" => email}) do
+    case Repo.insert(%User{name: name, password: password, email: email}) do
+      {:ok, user} ->
+        # TODO: Add status: created to the call below
+        conn |> render("show.json", %{user: user})
+      {:error, _changeset} ->
+        conn
+        |> put_status(:error)
+        |> render(ApiView, "error.json", %{message: "Could not create user."})
+    end
+  end
 end
