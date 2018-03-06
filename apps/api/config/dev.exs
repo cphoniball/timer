@@ -43,6 +43,6 @@ config :timer, Timer.Repo,
   username: "postgres",
   password: "root",
   database: "timer",
-  hostname: "localhost",
-  port: 6432,
+  hostname: "db",
+  port: 5432,
   pool_size: 10
