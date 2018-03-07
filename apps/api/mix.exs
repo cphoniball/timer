@@ -45,7 +45,7 @@ defmodule Timer.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 4.0"},
-      {:argon2_elixir, "~> 1.2"},
+      {:bcrypt_elixir, "~> 1.0"},
       {:ex_machina, "~> 2.1"},
       {:faker, "~> 0.9"}
     ]

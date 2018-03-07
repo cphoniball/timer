@@ -15,7 +15,7 @@ alias Timer.Factory
 Timer.Repo.insert!(%Timer.User{
   name: "Chris",
   email: "chris@chrishoniball.com",
-  password: Comeonin.Argon2.hashpwsalt("password")
+  password: Comeonin.Bcrypt.hashpwsalt("password")
 })
 
 for _ <- 1..30, do: Factory.user()

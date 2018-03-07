@@ -1,7 +1,7 @@
 # Timer
 
 ## Todos
-
+p
 - [ ] Won't build argon2 package in docker, may need to switch over to a bcrypt package or other. Warning message
 ```
 phoenix_1  | ** (RuntimeError) An error occurred when loading Argon2.
