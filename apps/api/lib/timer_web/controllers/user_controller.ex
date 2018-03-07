@@ -23,8 +23,9 @@ defmodule TimerWeb.UserController do
   def create(conn, %{"name" => name, "password" => password, "email" => email}) do
     case Repo.insert(%User{name: name, password: password, email: email}) do
       {:ok, user} ->
-        # TODO: Add status: created to the call below
-        conn |> render("show.json", %{user: user})
+        conn
+        |> put_status(:created)
+        |> render("show.json", %{user: user, status: :created})
       {:error, _changeset} ->
         conn
         |> put_status(:error)

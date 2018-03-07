@@ -6,8 +6,8 @@ defmodule TimerWeb.UserView do
     ApiView.success(%{data: render_many(users, TimerWeb.UserView, "user.json")})
   end
 
-  def render("show.json", %{user: user}) do
-    ApiView.success(%{data: render_one(user, TimerWeb.UserView, "user.json")})
+  def render("show.json", %{user: user, status: status}) do
+    ApiView.success(%{data: render_one(user, TimerWeb.UserView, "user.json"), status: status})
   end
 
   def render("show.json", %{user: user}) do
