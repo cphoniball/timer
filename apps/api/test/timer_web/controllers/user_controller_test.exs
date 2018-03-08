@@ -1,7 +1,7 @@
 defmodule TimerWeb.UserControllerTest do
   use TimerWeb.ConnCase
 
-  # TODO: Clean up the repetitive result check below
+  # TODO: Move the render matching into view tests
 
   setup _context do
     %{
