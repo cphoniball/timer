@@ -3,10 +3,14 @@ defmodule TimerWeb.UserControllerTest do
 
   # TODO: Clean up the repetitive result check below
 
-  test "index renders a list of todos" do
-    conn = build_conn()
-    user = insert(:user)
+  setup _context do
+    %{
+      conn: build_conn(),
+      user: insert(:user)
+    }
+  end
 
+  test "index renders a list of todos", %{conn: conn, user: user} do
     conn = get(conn, user_path(conn, :index))
 
     assert json_response(conn, 200) == %{
@@ -20,10 +24,7 @@ defmodule TimerWeb.UserControllerTest do
     }
   end
 
-  test "show renders a single user" do
-    conn = build_conn()
-    user = insert(:user)
-
+  test "show renders a single user", %{conn: conn, user: user} do
     conn = get(conn, user_path(conn, :show, user.id))
 
     assert json_response(conn, 200) == %{
@@ -37,8 +38,7 @@ defmodule TimerWeb.UserControllerTest do
     }
   end
 
-  test "create saves a user and renders them" do
-    conn = build_conn()
+  test "create saves a user and renders them", %{conn: conn} do
     user = %{"name" => "Testing", "email" => Faker.Internet.email(), "password" => "test"}
 
     conn = post(conn, user_path(conn, :create, user))
@@ -56,10 +56,7 @@ defmodule TimerWeb.UserControllerTest do
     }
   end
 
-  test "delete deletes a user and returns their id" do
-    conn = build_conn()
-    user = insert(:user)
-
+  test "delete deletes a user and returns their id", %{conn: conn, user: user} do
     conn = delete(conn, user_path(conn, :delete, user.id))
 
     assert json_response(conn, 200) == %{
