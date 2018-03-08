@@ -55,4 +55,17 @@ defmodule TimerWeb.UserControllerTest do
       "errors" => nil
     }
   end
+
+  test "delete deletes a user and returns their id" do
+    conn = build_conn()
+    user = insert(:user)
+
+    conn = delete(conn, user_path(conn, :delete, user.id))
+
+    assert json_response(conn, 200) == %{
+      "status" => 200,
+      "data" => %{"deleted_id" => user.id},
+      "errors" => nil
+    }
+  end
 end

@@ -7,8 +7,15 @@ defmodule TimerWeb.ApiView do
   Generic view that all API responses should be wrapped in to support consistent
   responses from the API
   """
-
   def success(data), do: render("success.json", data)
+
+  def render("deleted.json", %{id: id}) do
+    %{
+      status: code(:ok),
+      data: %{deleted_id: id},
+      errors: nil
+    }
+  end
 
   def render("error.json", %{message: message}) do
     %{

@@ -26,10 +26,23 @@ defmodule TimerWeb.UserController do
         conn
         |> put_status(:created)
         |> render("show.json", %{user: user, status: :created})
+      # TODO: Use the changeset to return an appropriate response here
       {:error, _changeset} ->
         conn
         |> put_status(:error)
         |> render(ApiView, "error.json", %{message: "Could not create user."})
+    end
+  end
+
+  # TODO: Update the handling below so we handle not finding the user appropriately
+  def delete(conn, %{"user_id" => user_id}) do
+    user = Repo.get!(User, user_id)
+
+    case Repo.delete(user) do
+      {:ok, user} ->
+        conn |> render(ApiView, "deleted.json", %{id: user.id})
+      {:error, _changeset} ->
+        conn |> put_status(:error) |> render(ApiView, "error.json", %{message: "Could not delete user."})
     end
   end
 end
