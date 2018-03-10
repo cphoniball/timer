@@ -13,6 +13,7 @@ defmodule TimerWeb.Router do
     get "/users", UserController, :index
     get "/users/:user_id", UserController, :show
     post "/users", UserController, :create
+    put "/users/:user_id", UserController, :update
     delete "/users/:user_id", UserController, :delete
   end
 end
