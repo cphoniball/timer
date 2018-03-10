@@ -1,29 +1,24 @@
 defmodule TimerWeb.UserController do
   use TimerWeb, :controller
 
-  alias Timer.{Repo, User}
+  alias Timer.Accounts
   alias TimerWeb.ApiView
 
-  # TODO: Use fallback controller to clean up duplicated logic here
+  action_fallback TimerWeb.FallbackController
 
   def index(conn, _params) do
-    users = Repo.all(User)
+    users = Accounts.list_users()
     render(conn, "index.json", %{users: users})
   end
 
   def show(conn, %{"user_id" => user_id}) do
-    case Repo.get(User, user_id) do
-      user = %User{} ->
-        conn |> render("show.json", %{user: user})
-      nil ->
-        conn
-        |> put_status(:not_found)
-        |> render(ApiView, "not_found.json", %{message: "Could not find that user."})
+    with {:ok, user} <- Accounts.get_user(user_id) do
+      conn |> render("show.json", %{user: user})
     end
   end
 
-  def create(conn, %{"name" => name, "password" => password, "email" => email}) do
-    case Repo.insert(%User{name: name, password: password, email: email}) do
+  def create(conn, user_params) do
+    case Accounts.create_user(user_params) do
       {:ok, user} ->
         conn
         |> put_status(:created)
@@ -38,13 +33,10 @@ defmodule TimerWeb.UserController do
 
   # TODO: Update the handling below so we handle not finding the user appropriately
   def delete(conn, %{"user_id" => user_id}) do
-    user = Repo.get!(User, user_id)
-
-    case Repo.delete(user) do
-      {:ok, user} ->
-        conn |> render(ApiView, "deleted.json", %{id: user.id})
-      {:error, _changeset} ->
-        conn |> put_status(:error) |> render(ApiView, "error.json", %{message: "Could not delete user."})
+    with {:ok, user} <- Accounts.get_user(user_id),
+         {:ok, _deleted_user} <- Accounts.delete_user(user)
+    do
+      conn |> render(ApiView, "deleted.json", %{id: user.id})
     end
   end
 end

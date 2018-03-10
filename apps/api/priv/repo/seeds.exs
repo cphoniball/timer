@@ -12,7 +12,7 @@
 
 alias Timer.Factory
 
-Timer.Repo.insert!(%Timer.User{
+Timer.Repo.insert!(%Timer.Accounts.User{
   name: "Chris",
   email: "chris@chrishoniball.com",
   password: Comeonin.Bcrypt.hashpwsalt("password")

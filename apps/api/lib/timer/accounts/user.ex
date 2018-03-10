@@ -1,7 +1,7 @@
-defmodule Timer.User do
+defmodule Timer.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Timer.User
+  alias Timer.Accounts.User
 
   schema "users" do
     field :email, :string
