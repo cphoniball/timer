@@ -2,7 +2,6 @@ defmodule TimerWeb.UserController do
   use TimerWeb, :controller
 
   alias Timer.Accounts
-  alias TimerWeb.ApiView
 
   action_fallback TimerWeb.FallbackController
 

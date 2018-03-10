@@ -1,6 +1,5 @@
 defmodule TimerWeb.UserView do
   use TimerWeb, :view
-  alias TimerWeb.ApiView
 
   def render("index.json", %{users: users}) do
     %{data: render_many(users, TimerWeb.UserView, "user.json")}
