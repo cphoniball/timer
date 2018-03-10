@@ -37,7 +37,7 @@ defmodule TimerWeb.UserController do
     with {:ok, user} <- Accounts.get_user(user_id),
          {:ok, _deleted_user} <- Accounts.delete_user(user)
     do
-      conn |> render(ApiView, "deleted.json", %{id: user.id})
+      conn |> render("show.json", %{user: user})
     end
   end
 end
