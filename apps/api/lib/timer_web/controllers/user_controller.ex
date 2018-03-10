@@ -18,16 +18,10 @@ defmodule TimerWeb.UserController do
   end
 
   def create(conn, user_params) do
-    case Accounts.create_user(user_params) do
-      {:ok, user} ->
+    with {:ok, user} <- Accounts.create_user(user_params) do
         conn
         |> put_status(:created)
-        |> render("show.json", %{user: user, status: :created})
-      # TODO: Use the changeset to return an appropriate response here
-      {:error, _changeset} ->
-        conn
-        |> put_status(:error)
-        |> render(ApiView, "error.json", %{message: "Could not create user."})
+        |> render("show.json", %{user: user})
     end
   end
 

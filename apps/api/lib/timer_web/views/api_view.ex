@@ -17,28 +17,6 @@ defmodule TimerWeb.ApiView do
     }
   end
 
-  def render("error.json", %{message: message}) do
-    %{
-      status: code(:error),
-      data: nil,
-      errors: %{
-        message: message,
-        detail: []
-      }
-    }
-  end
-
-  def render("not_found.json", %{message: message}) do
-    %{
-      status: code(:not_found),
-      data: nil,
-      errors: %{
-        message: message,
-        detail: []
-      }
-    }
-  end
-
   def render("success.json", %{data: data, status: status}) do
     %{status: code(status), data: data, errors: nil}
   end

@@ -2,11 +2,11 @@ defmodule TimerWeb.ErrorView do
   use TimerWeb, :view
 
   def render("404.json", _assigns) do
-    %{errors: %{detail: "Page not found"}}
+    %{data: nil, errors: %{message: "Resource not found.", detail: []}}
   end
 
   def render("500.json", _assigns) do
-    %{errors: %{detail: "Internal server error"}}
+    %{data: nil, errors: %{message: "Internal server error", detail: []}}
   end
 
   # In case no render clause matches or no
