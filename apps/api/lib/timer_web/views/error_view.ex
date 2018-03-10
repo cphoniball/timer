@@ -6,7 +6,7 @@ defmodule TimerWeb.ErrorView do
   end
 
   def render("500.json", _assigns) do
-    %{data: nil, errors: %{message: "Internal server error", detail: []}}
+    %{data: nil, errors: %{message: "Internal server error.", detail: []}}
   end
 
   # In case no render clause matches or no

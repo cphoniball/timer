@@ -10,59 +10,47 @@ defmodule TimerWeb.UserControllerTest do
     }
   end
 
-  test "index renders a list of todos", %{conn: conn, user: user} do
+  test "index renders a list of users", %{conn: conn, user: user} do
     conn = get(conn, user_path(conn, :index))
 
-    assert json_response(conn, 200) == %{
-      "status" => 200,
-      "data" => [%{
-        "id" => user.id,
-        "name" => user.name,
-        "email" => user.email
-      }],
-      "errors" => nil
-    }
+    assert json_response(conn, 200)["data"] == [%{
+      "id" => user.id,
+      "name" => user.name,
+      "email" => user.email
+    }]
   end
 
   test "show renders a single user", %{conn: conn, user: user} do
     conn = get(conn, user_path(conn, :show, user.id))
 
-    assert json_response(conn, 200) == %{
-      "status" => 200,
-      "data" => %{
-        "id" => user.id,
-        "name" => user.name,
-        "email" => user.email
-      },
-      "errors" => nil
+    assert json_response(conn, 200)["data"] == %{
+      "id" => user.id,
+      "name" => user.name,
+      "email" => user.email
     }
   end
 
   test "create saves a user and renders them", %{conn: conn} do
     user = %{"name" => "Testing", "email" => Faker.Internet.email(), "password" => "test"}
 
-    conn = post(conn, user_path(conn, :create, user))
+    conn = post(conn, user_path(conn, :create, %{"user" => user}))
 
-    response = json_response(conn, 201)
+    response = json_response(conn, 201)["data"]
 
     assert response == %{
-      "status" => 201,
-      "data" => %{
-        "id" => response["data"]["id"],
-        "name" => user["name"],
-        "email" => user["email"]
-      },
-      "errors" => nil
+      "id" => response["id"],
+      "name" => user["name"],
+      "email" => user["email"]
     }
   end
 
   test "delete deletes a user and returns their id", %{conn: conn, user: user} do
     conn = delete(conn, user_path(conn, :delete, user.id))
 
-    assert json_response(conn, 200) == %{
-      "status" => 200,
-      "data" => %{"deleted_id" => user.id},
-      "errors" => nil
+    assert json_response(conn, 200)["data"] == %{
+      "id" => user.id,
+      "name" => user.name,
+      "email" => user.email
     }
   end
 end
