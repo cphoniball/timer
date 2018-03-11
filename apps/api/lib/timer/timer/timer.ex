@@ -25,7 +25,7 @@ defmodule Timer.Timer do
     |> Repo.insert()
   end
 
-  def end_time_entry(%TimeEntry{} = time_entry) do
+  def stop_time_entry(%TimeEntry{} = time_entry) do
     time_entry
     |> update_time_entry(%{"ended_at" => DateTime.utc_now()})
   end

@@ -19,8 +19,12 @@ defmodule TimerWeb.TimerTest do
   end
 
   describe "end_time_entry()" do
-    test "should update the given time entry with ended_at set to the current time" do
-
+    test "should update the given time entry with ended_at set to the current time", %{user: user} do
+      with {:ok, started} = Timer.start_time_entry(%{"user_id" => user.id}),
+           {:ok, ended} = Timer.stop_time_entry(started)
+      do
+          assert DateTime.diff(DateTime.utc_now(), ended.ended_at) < 1
+      end
     end
   end
 end
