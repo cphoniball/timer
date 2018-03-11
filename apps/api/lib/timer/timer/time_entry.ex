@@ -10,11 +10,13 @@ defmodule Timer.Timer.TimeEntry do
     field :ended_at, :utc_datetime
 
     belongs_to :user, User
+
+    timestamps()
   end
 
   def changeset(%TimeEntry{} = time_entry, attrs) do
     time_entry
     |> cast(attrs, [:description, :started_at, :ended_at, :user_id])
-    |> validate_required([:started_at, :user_id])
+    |> validate_required([:user_id])
   end
 end
