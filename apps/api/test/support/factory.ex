@@ -8,4 +8,12 @@ defmodule TimerWeb.Factory do
       password: Faker.Lorem.word()
     }
   end
+
+  def time_entry_factory do
+    %Timer.Timer.TimeEntry{
+      description: Faker.Lorem.sentence(),
+      started_at: Faker.DateTime.backward(1),
+      user: build(:user)
+    }
+  end
 end
