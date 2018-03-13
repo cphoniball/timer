@@ -13,7 +13,6 @@ defmodule Timer.Timer.TimeEntry do
     belongs_to :user, User
   end
 
-  # TODO: Work on removing the duplication from these changesets
   def changeset(%TimeEntry{} = time_entry, %{"user" => user} = attrs) do
     time_entry
     |> cast_attributes(attrs)
@@ -24,6 +23,7 @@ defmodule Timer.Timer.TimeEntry do
     time_entry
     |> cast_attributes(attrs)
     |> assoc_constraint(:user)
+    |> cast_assoc(:user, required: true)
   end
 
   defp cast_attributes(%TimeEntry{} = time_entry, attrs) do
