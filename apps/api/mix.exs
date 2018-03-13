@@ -24,7 +24,8 @@ defmodule Timer.Mixfile do
         :ex_machina,
         :faker,
         :logger,
-        :runtime_tools
+        :runtime_tools,
+        :timex
       ]
     ]
   end
@@ -47,7 +48,8 @@ defmodule Timer.Mixfile do
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 1.0"},
       {:ex_machina, "~> 2.1"},
-      {:faker, "~> 0.9"}
+      {:faker, "~> 0.9"},
+      {:timex, "~> 3.1"}
     ]
   end
 
