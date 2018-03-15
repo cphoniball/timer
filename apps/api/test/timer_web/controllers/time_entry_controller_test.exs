@@ -42,6 +42,15 @@ defmodule TimerWeb.TimeEntryControllerTest do
         assert DateTime.diff(ended_at, DateTime.utc_now(), :second) < 1
       end
     end
+
+    test "should return a 404 response if the time entry cannot be found", %{conn: conn, body: body} do
+      conn = put(conn, time_entry_path(conn, :stop, 1000000))
+
+      assert json_response(conn, 404) == %{
+        "data" => nil,
+        "errors" => %{"message" => "Resource not found.", "detail" => []}
+      }
+    end
   end
 
   defp start_time_entry(conn, body) do
