@@ -17,6 +17,6 @@ defmodule TimerWeb.Router do
     delete "/users/:user_id", UserController, :delete
 
     post "/time_entries/start", TimeEntryController, :start
-    put "/time_entries/:id/stop", TimeEntryController, :stop
+    put "/time_entries/:time_entry_id/stop", TimeEntryController, :stop
   end
 end

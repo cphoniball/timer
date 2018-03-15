@@ -9,7 +9,7 @@ defmodule Timer.Timer do
   def list_time_entries, do: Repo.all(TimeEntry)
 
   def get_time_entry(id) do
-    case Repo.get(TimeEntry, id) do
+    case Repo.get(TimeEntry, id) |> Repo.preload(:user) do
       %TimeEntry{} = time_entry ->
         {:ok, time_entry}
       nil ->

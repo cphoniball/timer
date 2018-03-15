@@ -11,9 +11,9 @@ defmodule TimerWeb.TimeEntryController do
     end
   end
 
-  def stop(conn, %{"id" => id}) do
-    with {:ok, time_entry} <- Timer.get_time_entry(id),
-         {:ok, stopped} = Timer.stop_time_entry(time_entry)
+  def stop(conn, %{"time_entry_id" => time_entry_id}) do
+    with {:ok, time_entry} <- Timer.get_time_entry(time_entry_id),
+         {:ok, stopped} <- Timer.stop_time_entry(time_entry)
     do
       conn |> put_status(:accepted) |> render("show.json", %{time_entry: stopped})
     end
