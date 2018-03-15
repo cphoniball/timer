@@ -3,6 +3,8 @@ defmodule TimerWeb.TimeEntryController do
 
   alias Timer.Timer
 
+  action_fallback TimerWeb.FallbackController
+
   def start(conn, %{"time_entry" => params}) do
     with {:ok, time_entry} <- Timer.start_time_entry(params) do
       conn |> put_status(:created) |> render("show.json", %{time_entry: time_entry})
