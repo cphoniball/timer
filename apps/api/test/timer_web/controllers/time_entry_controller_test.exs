@@ -53,6 +53,22 @@ defmodule TimerWeb.TimeEntryControllerTest do
     end
   end
 
+  describe "update" do
+    test "should allow updating the description, start_time, and end_time of a time entry", %{conn: conn} do
+      with cur_time <- DateTime.to_iso8601(DateTime.utc_now()),
+           time_entry <- insert(:time_entry),
+           params <- %{"started_at" => cur_time, "ended_at" => cur_time, "description" => @description},
+           conn <- put(conn, time_entry_path(conn, :update, time_entry.id), %{"time_entry" => params}),
+           response <- json_response(conn, 202),
+           time_entry <- response["data"]
+      do
+        assert time_entry["started_at"] == cur_time
+        assert time_entry["ended_at"] == cur_time
+        assert time_entry["description"] == @description
+      end
+    end
+  end
+
   defp start_time_entry(conn, body) do
     post(conn, time_entry_path(conn, :start, body)) |> json_response(201)
   end

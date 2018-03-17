@@ -18,4 +18,12 @@ defmodule TimerWeb.TimeEntryController do
       conn |> put_status(:accepted) |> render("show.json", %{time_entry: stopped})
     end
   end
+
+  def update(conn, %{"time_entry_id" => time_entry_id, "time_entry" => time_entry_params}) do
+      with {:ok, time_entry} = Timer.get_time_entry(time_entry_id),
+           {:ok, time_entry} = Timer.update_time_entry(time_entry, time_entry_params)
+      do
+        conn |> put_status(:accepted) |> render("show.json", %{time_entry: time_entry})
+      end
+  end
 end
