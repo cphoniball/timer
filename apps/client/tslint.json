@@ -1,0 +1,22 @@
+{
+    "extends": ["tslint:recommended", "tslint-react", "tslint-config-airbnb"],
+    "rules": {
+        "array-type": false,
+        "import-name": false,
+        "indent": [true, "spaces", 4],
+        "interface-name": false,
+        "ter-indent": [true, 4, {
+            "SwitchCase": 1
+        }],
+        "trailing-comma": [true, "never"],
+        "max-line-length": [true, 240],
+        "jsx-no-multiline-js": false,
+        "jsx-no-lambda": false,
+        "jsx-boolean-value": false,
+        "object-shorthand-properties-first": false,
+        "no-var-requires": false,
+        "variable-name": false,
+        "max-classes-per-file": { "severity": "warning", "options": [true, 1] },
+        "no-increment-decrement": { "severity": "warning" }
+    }
+}

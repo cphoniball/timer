@@ -3,36 +3,37 @@ version: "3"
 services:
 
  # Proxies requests to the different containers so we can use real-ish hostnames while developing
-  # nginx-proxy:
-  #   build:
-  #     context: ./docker/nginx
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - /var/run/docker.sock:/tmp/docker.sock:ro
-  #   networks:
-  #     - application
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - application
 
-  # client:
-  #   image: node:8.6
-  #   working_dir: /app
-  #   entrypoint: ./docker-entrypoint.sh
-  #   ports:
-  #     - "7000:7000"
-  #     - "443:443"
-  #   networks:
-  #     - application
-  #   environment:
-  #     NODE_ENV: "development"
-  #     VIRTUAL_HOST: "*timer.test"
-  #     VIRTUAL_PORT: 7000
-  #   volumes:
-  #     - ./apps/client:/app
+  client:
+    image: node:latest
+    working_dir: /app
+    entrypoint: ./entrypoint.sh
+    ports:
+      - "7000:7000"
+    networks:
+      - application
+    environment:
+      NODE_ENV: "development"
+      VIRTUAL_HOST: "client.timer.test"
+      VIRTUAL_PORT: 7000
+    volumes:
+      - ./apps/client:/app
 
   phoenix:
     build:
       context: ./docker/phoenix
     entrypoint: /app/entrypoint.sh
+    environment:
+      VIRTUAL_HOST: api.timer.test
+      VIRTUAL_PORT: 4000
     ports:
       - "4000:4000"
     networks:
