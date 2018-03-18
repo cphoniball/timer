@@ -6,7 +6,7 @@ import { Route, Router } from 'react-router-dom';
 
 import history from 'global/routing/history.provider';
 
-import Timer from 'timer/Timer';
+import Timer from 'timer/Timer.container';
 
 render(
     <Router history={history}>
