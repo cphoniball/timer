@@ -3,6 +3,8 @@ import * as React from 'react';
 import TimeEntry from 'timer/time_entry/time_entry.interface';
 import User from 'user/user.interface';
 
+import api from 'global/api/api.provider';
+
 interface Props {}
 
 interface State {
@@ -26,13 +28,20 @@ class Timer extends React.Component<Props, State> {
         };
     }
 
-    public start = (): void => {
-        // TODO: Api call to start the time entry
-        this.setState({ isRunning: true });
+    public start = async () => {
+        const timeEntry = await api.post('/time_entries/start', { time_entry: this.state.timeEntry });
+
+        // TODO: Show the time entry we just started in the UI
+        console.log(timeEntry);
+
+        this.setState({ isRunning: true, timeEntry: { ...this.state.timeEntry, id: timeEntry.id } });
     }
 
-    public stop = (): void => {
-        // TODO: Api call to stop the time entry here
+    public stop = async () => {
+        const timeEntry = await api.put(`/time_entries/${this.state.timeEntry.id}/stop`);
+
+        console.log(timeEntry);
+
         this.setState({ isRunning: false });
     }
 

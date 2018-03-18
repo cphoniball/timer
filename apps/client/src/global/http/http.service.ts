@@ -1,11 +1,16 @@
 import queryString from 'query-string';
-import urlParser from 'url';
+import * as urlParser from 'url';
+
+interface Options {
+    host: string;
+    options: RequestInit;
+}
 
 export default class Http {
     public host: string;
-    public options: object;
+    public options: RequestInit;
 
-    constructor({ host = '', options = {} }) {
+    constructor({ host = '', options = {} }: Options) {
         this.host = urlParser.parse(host).protocol  + '//' +  urlParser.parse(host).host;
         this.options = options;
     }
@@ -30,7 +35,7 @@ export default class Http {
         });
     }
 
-    public put(url: string, body: object) {
+    public put(url: string, body: object = {}) {
         return this.request(url, {
             body: JSON.stringify(body),
             method: 'put'
@@ -42,9 +47,6 @@ export default class Http {
     }
 
     // Override this in implementations to set headers at request-time
-    private getHeaders() {
-        return {};
-    }
 
     private resolveUrl(url: string) {
         if (!this.host) return url;
@@ -52,8 +54,8 @@ export default class Http {
         return urlParser.resolve(this.host, urlParser.parse(url).path);
     }
 
-    private async request(url: string, options: object = {}) {
-        const requestOptions: { headers: object; } = { ...this.options, ...options, headers: this.getHeaders() };
+    private async request(url: string, options: RequestInit = {}): Promise<any> {
+        const requestOptions: RequestInit = { ...this.options, ...options };
 
         const response = await fetch(this.resolveUrl(url), requestOptions);
         const json = await response.json();
