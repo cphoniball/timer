@@ -21,6 +21,7 @@ defmodule Timer.Mixfile do
     [
       mod: {Timer.Application, []},
       extra_applications: [
+        :corsica,
         :ex_machina,
         :faker,
         :logger,
@@ -39,6 +40,7 @@ defmodule Timer.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:corsica, "~> 1.0"},
       {:phoenix, "~> 1.3.0-rc"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
