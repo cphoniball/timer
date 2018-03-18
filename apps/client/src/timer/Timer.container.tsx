@@ -14,32 +14,34 @@ interface State {
     timeEntry: TimeEntry;
 }
 
+const initialTimeEntry: TimeEntry = {
+    description: '',
+    ended_at: null,
+    id: null,
+    started_at: null,
+    user: { id: 1, name: 'testuser', email: 'testing@test.com' }
+};
+
 export default class TimerContainer extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
             isRunning: false,
-            timeEntry: {
-                description: '',
-                ended_at: null,
-                id: null,
-                started_at: null,
-                user: { id: 1, name: 'testuser', email: 'testing@test.com' }
-            }
+            timeEntry: initialTimeEntry
         };
     }
 
     public start = async () => {
         const timeEntry = await api.post('/time_entries/start', { time_entry: this.state.timeEntry });
 
-        this.setState({ isRunning: true, timeEntry: { ...this.state.timeEntry, id: timeEntry.id } });
+        this.setState({ isRunning: true, timeEntry });
     }
 
     public stop = async () => {
-        const timeEntry = await api.put(`/time_entries/${this.state.timeEntry.id}/stop`);
+        await api.put(`/time_entries/${this.state.timeEntry.id}/stop`);
 
-        this.setState({ isRunning: false });
+        this.setState({ isRunning: false, timeEntry: initialTimeEntry });
     }
 
     public render() {

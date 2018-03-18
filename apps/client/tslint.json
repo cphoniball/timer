@@ -1,6 +1,7 @@
 {
     "extends": ["tslint:recommended", "tslint-react", "tslint-config-airbnb"],
     "rules": {
+        "align": false,
         "array-type": false,
         "import-name": false,
         "indent": [true, "spaces", 4],
