@@ -1,5 +1,6 @@
 defmodule TimerWeb.TimeEntryControllerTest do
   use TimerWeb.ConnCase
+  use Timex
 
   @description "This is a test description for a time entry."
 
@@ -10,6 +11,23 @@ defmodule TimerWeb.TimeEntryControllerTest do
       conn: build_conn(),
       body: %{"time_entry" => %{"user" => %{"id" => user.id}}}
     }
+  end
+
+  describe "create" do
+    test "should create a time entry with the given parameters", %{conn: conn, body: body} do
+      # TODO: Is there a more compact way to update the map here?
+      now = DateTime.utc_now()
+      later = Timex.shift(now, minutes: 15)
+      body = put_in(body["time_entry"]["started_at"], now)
+      body = put_in(body["time_entry"]["ended_at"], later)
+      with conn <- post(conn, time_entry_path(conn, :create), body),
+           response <- json_response(conn, 201)
+      do
+        IO.puts inspect(response)
+        assert response["data"]["started_at"] == DateTime.to_iso8601(now)
+        assert response["data"]["ended_at"] == DateTime.to_iso8601(later)
+      end
+    end
   end
 
   describe "start" do
