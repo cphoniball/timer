@@ -3,12 +3,24 @@ defmodule Timer.TimerTest do
   use Timex
 
   alias Timer.Timer
-  alias Elixir.Timer.Timer.TimeEntry
 
   setup _context do
     %{
       user: insert(:user)
     }
+  end
+
+  describe "create_time_entry()" do
+    test "should create a time entry with the given parameters", %{user: user} do
+      with now <- DateTime.utc_now(),
+           start_time <- Timex.shift(now, days: 1),
+           end_time <- Timex.shift(now, days: 1, minutes: 10),
+           {:ok, time_entry} = Timer.create_time_entry(%{"user" => user, "started_at" => start_time, "ended_at" => end_time})
+      do
+          assert time_entry.started_at == start_time;
+          assert time_entry.ended_at == end_time;
+      end
+    end
   end
 
   describe "start_time_entry()" do

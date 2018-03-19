@@ -17,12 +17,15 @@ defmodule Timer.Timer do
     end
   end
 
-  def start_time_entry(attrs \\ %{}) do
-    attrs_with_start_time = Map.put(attrs, "started_at", DateTime.utc_now())
-
+  def create_time_entry(attrs \\ %{}) do
     %TimeEntry{}
-    |> TimeEntry.changeset(attrs_with_start_time)
+    |> TimeEntry.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def start_time_entry(attrs \\ %{}) do
+    Map.put(attrs, "started_at", DateTime.utc_now())
+    |> create_time_entry
   end
 
   def stop_time_entry(%TimeEntry{} = time_entry) do
