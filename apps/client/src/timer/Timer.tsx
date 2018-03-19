@@ -1,10 +1,19 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import * as moment from 'moment';
 
 import TimeEntry from 'timer/time_entry/time_entry.interface';
 
 import api from 'global/api/api.provider';
+
+const TimerPanel = styled.div`
+    border: 1px solid grey;
+    background-color: white;
+    box-shadow: 1px 1px 1px black;
+    padding: 30px;
+    display: inline-block;
+`;
 
 interface Props {
     timeEntry: TimeEntry;
@@ -65,7 +74,7 @@ class Timer extends React.Component<Props, State> {
         const { timeEntry, isRunning, start, stop } = this.props;
 
         return (
-            <div className="timer">
+            <TimerPanel>
                 <h2>{isRunning ? 'The timer is running' : 'The timer is stopped'}</h2>
                 {!!this.state.elapsedSeconds && <div>
                     Timer has been running for {this.state.elapsedSeconds} seconds.
@@ -75,7 +84,7 @@ class Timer extends React.Component<Props, State> {
                     ? <button onClick={this.stop}>Stop Timer</button>
                     : <button onClick={start}>Start Timer</button>
                 }
-            </div>
+            </TimerPanel>
         );
     }
 }
