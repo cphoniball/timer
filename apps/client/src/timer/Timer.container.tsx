@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import * as React from 'react';
 
 import Timer from 'timer/Timer';
@@ -33,7 +34,12 @@ export default class TimerContainer extends React.Component<Props, State> {
     }
 
     public start = async () => {
-        const timeEntry = await api.post('/time_entries/start', { time_entry: this.state.timeEntry });
+        const timeEntry = await api.post('/time_entries', {
+            time_entry: {
+                ...this.state.timeEntry,
+                started_at: moment().toISOString()
+            }
+        });
 
         this.setState({ isRunning: true, timeEntry });
     }
