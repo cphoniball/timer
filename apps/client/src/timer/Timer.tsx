@@ -7,6 +7,8 @@ import TimeEntry from 'timer/time_entry/time_entry.interface';
 
 import api from 'global/api/api.provider';
 
+import { formatSeconds } from 'timer/timer.utilities';
+
 const TimerPanel = styled.div`
     border: 1px solid grey;
     background-color: white;
@@ -77,7 +79,7 @@ class Timer extends React.Component<Props, State> {
             <TimerPanel>
                 <h2>{isRunning ? 'The timer is running' : 'The timer is stopped'}</h2>
                 {!!this.state.elapsedSeconds && <div>
-                    Timer has been running for {this.state.elapsedSeconds} seconds.
+                    {formatSeconds(this.state.elapsedSeconds)}
                 </div>}
 
                 {isRunning

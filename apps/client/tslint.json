@@ -9,6 +9,7 @@
         "ter-indent": [true, 4, {
             "SwitchCase": 1
         }],
+        "no-console": false,
         "trailing-comma": [true, "never"],
         "max-line-length": [true, 240],
         "jsx-no-multiline-js": false,

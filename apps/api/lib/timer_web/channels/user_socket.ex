@@ -2,11 +2,10 @@ defmodule TimerWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", TimerWeb.RoomChannel
+  channel "time_entry:*", TimerWeb.TimeEntryChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
-  # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -34,4 +33,5 @@ defmodule TimerWeb.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   def id(_socket), do: nil
+
 end

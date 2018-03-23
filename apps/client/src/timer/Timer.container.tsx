@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import * as Phoenix from 'phoenix';
 import * as React from 'react';
 
 import Timer from 'timer/Timer';
@@ -31,6 +32,22 @@ export default class TimerContainer extends React.Component<Props, State> {
             isRunning: false,
             timeEntry: initialTimeEntry
         };
+    }
+
+    public componentDidMount() {
+        const socket = new Phoenix.Socket('ws://api.timer.test:4000/socket', {
+            transport: WebSocket
+        });
+        socket.connect();
+
+        // Join our channel and stop the timer if we receive that message
+        const channel = socket.channel('time_entry:lobby', {});
+
+        channel.on('stop', payload => console.log(payload));
+
+        channel.join()
+            .receive('ok', res => console.log(`Joined channel`, res))
+            .receive('error', res => console.log(`Unable to join channel`, res));
     }
 
     public start = async () => {

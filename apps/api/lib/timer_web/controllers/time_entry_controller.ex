@@ -1,6 +1,7 @@
 defmodule TimerWeb.TimeEntryController do
   use TimerWeb, :controller
 
+  alias TimerWeb.TimeEntryChannel
   alias Timer.Timer
 
   action_fallback TimerWeb.FallbackController
@@ -21,6 +22,9 @@ defmodule TimerWeb.TimeEntryController do
     with {:ok, time_entry} <- Timer.get_time_entry(time_entry_id),
          {:ok, stopped} <- Timer.stop_time_entry(time_entry)
     do
+      # Broadcast stop to all clients so that timers do not keep running on clients that did
+      # not send the stop request.
+      TimeEntryChannel.broadcast_stop(stopped)
       conn |> put_status(:accepted) |> render("show.json", %{time_entry: stopped})
     end
   end
