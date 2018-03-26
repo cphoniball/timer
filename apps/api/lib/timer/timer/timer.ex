@@ -2,11 +2,20 @@ defmodule Timer.Timer do
   @moduledoc """
   Context for functionality related to core timer functions.
   """
+  import Ecto.Query
 
   alias Timer.Repo
   alias Timer.Timer.TimeEntry
 
   def list_time_entries, do: Repo.all(TimeEntry)
+
+  @doc """
+  Retrieves all active time entries, i.e. time entries that have a 'started_at' time but not an
+  'ended_at' time.
+  """
+  def active_time_entries() do
+    Repo.all(from t in TimeEntry, where: not is_nil(t.started_at), where: is_nil(t.ended_at))
+  end
 
   def get_time_entry(id) do
     case Repo.get(TimeEntry, id) |> Repo.preload(:user) do

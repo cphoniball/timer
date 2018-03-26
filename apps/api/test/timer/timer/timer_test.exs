@@ -10,6 +10,19 @@ defmodule Timer.TimerTest do
     }
   end
 
+  describe "active_time_entries()" do
+    test "should return all active time entries" do
+      with one <- insert(:time_entry),
+           two <- insert(:time_entry),
+           {:ok, _time_entry} <- Timer.update_time_entry(two, %{"ended_at" => DateTime.utc_now()}),
+           {:ok, active_entries} <- Timer.active_time_entries()
+      do
+        assert [^one] = active_entries
+        assert length(active_entries) == 1
+      end
+    end
+  end
+
   describe "create_time_entry()" do
     test "should create a time entry with the given parameters", %{user: user} do
       with now <- DateTime.utc_now(),
