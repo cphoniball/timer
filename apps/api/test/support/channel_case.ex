@@ -20,6 +20,8 @@ defmodule TimerWeb.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
+      import TimerWeb.Factory
+
       # The default endpoint for testing
       @endpoint TimerWeb.Endpoint
     end

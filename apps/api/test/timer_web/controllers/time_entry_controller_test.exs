@@ -23,7 +23,6 @@ defmodule TimerWeb.TimeEntryControllerTest do
       with conn <- post(conn, time_entry_path(conn, :create), body),
            response <- json_response(conn, 201)
       do
-        IO.puts inspect(response)
         assert response["data"]["started_at"] == DateTime.to_iso8601(now)
         assert response["data"]["ended_at"] == DateTime.to_iso8601(later)
       end

@@ -11,18 +11,14 @@ defmodule TimerWeb.TimeEntryChannelTest do
     {:ok, socket: socket}
   end
 
-  test "ping replies with status ok", %{socket: socket} do
-    ref = push socket, "ping", %{"hello" => "there"}
-    assert_reply ref, :ok, %{"hello" => "there"}
-  end
-
-  test "shout broadcasts to time_entry:lobby", %{socket: socket} do
-    push socket, "shout", %{"hello" => "all"}
-    assert_broadcast "shout", %{"hello" => "all"}
-  end
-
-  test "broadcasts are pushed to the client", %{socket: socket} do
-    broadcast_from! socket, "broadcast", %{"some" => "data"}
-    assert_push "broadcast", %{"some" => "data"}
+  describe "broadcast_stop" do
+    test "should broadcast the passed time entry to all sockets" do
+      with time_entry <- insert(:time_entry),
+           TimeEntryChannel.broadcast_stop(time_entry),
+           expected_payload <- %{id: time_entry.id, started_at: time_entry.started_at, ended_at: time_entry.ended_at}
+      do
+        assert_broadcast("stop", expected_payload)
+      end
+    end
   end
 end
