@@ -1,6 +1,10 @@
 defmodule TimerWeb.TimeEntryView do
   use TimerWeb, :view
 
+  def render("list.json", %{time_entries: time_entries}) do
+    %{data: render_many(time_entries, TimerWeb.TimeEntryView, "time_entry.json")}
+  end
+
   def render("show.json", %{time_entry: time_entry}) do
     %{data: render_one(time_entry, TimerWeb.TimeEntryView, "time_entry.json")}
   end

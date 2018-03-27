@@ -6,9 +6,9 @@ defmodule TimerWeb.TimeEntryController do
 
   action_fallback TimerWeb.FallbackController
 
-  # def active(conn, %{}) do
-
-  # end
+  def active(conn, _params) do
+    conn |> put_status(:ok) |> render("list.json", %{time_entries: Timer.active_time_entries()})
+  end
 
   def create(conn, %{"time_entry" => params}) do
     with {:ok, time_entry} <- Timer.create_time_entry(params) do

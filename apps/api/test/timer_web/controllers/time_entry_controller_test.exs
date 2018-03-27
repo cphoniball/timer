@@ -13,6 +13,27 @@ defmodule TimerWeb.TimeEntryControllerTest do
     }
   end
 
+  describe "active" do
+    test "should return a list of the active time entries", %{conn: conn} do
+      with active <- insert(:time_entry),
+           inactive <- insert(:time_entry, %{ended_at: DateTime.utc_now()}),
+           conn <- get(conn, time_entry_path(conn, :active)),
+           response <- json_response(conn, 200)
+      do
+        # TODO: Can we use the time entry view here to simplify this test?
+        assert response["data"] == [
+          %{
+            "user_id" => active.user_id,
+            "started_at" => DateTime.to_iso8601(active.started_at),
+            "id" => active.id,
+            "ended_at" => active.ended_at,
+            "description" => active.description
+          }
+        ]
+      end
+    end
+  end
+
   describe "create" do
     test "should create a time entry with the given parameters", %{conn: conn, body: body} do
       # TODO: Is there a more compact way to update the map here?
