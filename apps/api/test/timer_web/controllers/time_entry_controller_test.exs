@@ -2,6 +2,8 @@ defmodule TimerWeb.TimeEntryControllerTest do
   use TimerWeb.ConnCase
   use Timex
 
+  alias TimerWeb.TimeEntryView
+
   @description "This is a test description for a time entry."
 
   setup _context do
@@ -18,18 +20,9 @@ defmodule TimerWeb.TimeEntryControllerTest do
       with active <- insert(:time_entry),
            inactive <- insert(:time_entry, %{ended_at: DateTime.utc_now()}),
            conn <- get(conn, time_entry_path(conn, :active)),
-           response <- json_response(conn, 200)
+           response <- response(conn, 200)
       do
-        # TODO: Can we use the time entry view here to simplify this test?
-        assert response["data"] == [
-          %{
-            "user_id" => active.user_id,
-            "started_at" => DateTime.to_iso8601(active.started_at),
-            "id" => active.id,
-            "ended_at" => active.ended_at,
-            "description" => active.description
-          }
-        ]
+        assert response == Poison.encode!(TimeEntryView.render("list.json", %{time_entries: [active]}))
       end
     end
   end
