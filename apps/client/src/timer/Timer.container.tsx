@@ -43,11 +43,14 @@ export default class TimerContainer extends React.Component<Props, State> {
         // Join our channel and stop the timer if we receive that message
         const channel = socket.channel('time_entry:lobby', {});
 
-        channel.on('stop', payload => console.log(payload));
+        channel.on('stop', payload => this.stop());
 
         channel.join()
             .receive('ok', res => console.log(`Joined channel`, res))
             .receive('error', res => console.log(`Unable to join channel`, res));
+
+        // Check if we have any active entries on startup
+        this.getActiveEntries();
     }
 
     public start = async () => {
@@ -65,6 +68,17 @@ export default class TimerContainer extends React.Component<Props, State> {
         await api.put(`/time_entries/${this.state.timeEntry.id}/stop`);
 
         this.setState({ isRunning: false, timeEntry: initialTimeEntry });
+    }
+
+    public getActiveEntries = async () => {
+        const entries = await api.get('/time_entries/active');
+
+        if (entries.length) {
+            this.setState({
+                isRunning: true,
+                timeEntry: entries[0]
+            });
+        }
     }
 
     public render() {
