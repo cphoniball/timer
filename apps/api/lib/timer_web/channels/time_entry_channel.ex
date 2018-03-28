@@ -14,9 +14,9 @@ defmodule TimerWeb.TimeEntryChannel do
   end
 
   # Borrowing from http://learningelixir.joekain.com/pushing-model-changes-to-a-phoenix-channel/
-  def broadcast_stop(%TimeEntry{} = time_entry) do
+  def broadcast(event, %TimeEntry{} = time_entry) do
     payload = %{id: time_entry.id, started_at: time_entry.started_at, ended_at: time_entry.ended_at}
-    TimerWeb.Endpoint.broadcast("time_entry:lobby", "stop", payload)
+    TimerWeb.Endpoint.broadcast("time_entry:lobby", event, payload)
   end
 
   # # Channels can be used in a request/response fashion

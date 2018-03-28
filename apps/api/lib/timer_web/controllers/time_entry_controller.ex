@@ -12,12 +12,16 @@ defmodule TimerWeb.TimeEntryController do
 
   def create(conn, %{"time_entry" => params}) do
     with {:ok, time_entry} <- Timer.create_time_entry(params) do
+      # Broadcast start event to all clients so that separate clients sync state
+      TimeEntryChannel.broadcast("start", time_entry)
       conn |> put_status(:created) |> render("show.json", %{time_entry: time_entry})
     end
   end
 
   def start(conn, %{"time_entry" => params}) do
     with {:ok, time_entry} <- Timer.start_time_entry(params) do
+      # Broadcast start event to all clients so that separate clients sync state
+      TimeEntryChannel.broadcast("start", time_entry)
       conn |> put_status(:created) |> render("show.json", %{time_entry: time_entry})
     end
   end
@@ -28,7 +32,7 @@ defmodule TimerWeb.TimeEntryController do
     do
       # Broadcast stop to all clients so that timers do not keep running on clients that did
       # not send the stop request.
-      TimeEntryChannel.broadcast_stop(stopped)
+      TimeEntryChannel.broadcast("stop", stopped)
       conn |> put_status(:accepted) |> render("show.json", %{time_entry: stopped})
     end
   end

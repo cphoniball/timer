@@ -43,7 +43,9 @@ export default class TimerContainer extends React.Component<Props, State> {
         // Join our channel and stop the timer if we receive that message
         const channel = socket.channel('time_entry:lobby', {});
 
-        channel.on('stop', payload => this.stop());
+        channel.on('start', payload => this.setState({ isRunning: true, timeEntry: payload }));
+
+        channel.on('stop', payload => this.setState({ isRunning: false, timeEntry: initialTimeEntry }));
 
         channel.join()
             .receive('ok', res => console.log(`Joined channel`, res))
