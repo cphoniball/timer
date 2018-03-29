@@ -6,7 +6,7 @@
 export const formatSeconds = (duration: number): string => {
     const seconds = duration % 60;
     const hours = Math.floor((duration - seconds) / 3600);
-    const minutes = (duration - seconds) % 3600;
+    const minutes = (duration - seconds) / 60;
 
     return `${zeroPrefixed(hours)}:${zeroPrefixed(minutes)}:${zeroPrefixed(seconds)}`;
 };
