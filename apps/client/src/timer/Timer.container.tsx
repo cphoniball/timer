@@ -7,7 +7,7 @@ import Timer from 'timer/Timer';
 import TimeEntry from 'timer/time_entry/time_entry.interface';
 import User from 'user/user.interface';
 
-import api from 'global/api/api.provider';
+import timeEntryApi from 'timer/timer.api';
 
 interface Props {}
 
@@ -56,24 +56,22 @@ export default class TimerContainer extends React.Component<Props, State> {
     }
 
     public start = async () => {
-        const timeEntry = await api.post('/time_entries', {
-            time_entry: {
-                ...this.state.timeEntry,
-                started_at: moment().toISOString()
-            }
+        const timeEntry = await timeEntryApi.start({
+            ...this.state.timeEntry,
+            started_at: moment().toISOString()
         });
 
         this.setState({ isRunning: true, timeEntry });
     }
 
     public stop = async () => {
-        await api.put(`/time_entries/${this.state.timeEntry.id}/stop`);
+        await timeEntryApi.stop(this.state.timeEntry.id);
 
         this.setState({ isRunning: false, timeEntry: initialTimeEntry });
     }
 
     public getActiveEntries = async () => {
-        const entries = await api.get('/time_entries/active');
+        const entries = await timeEntryApi.active();
 
         if (entries.length) {
             this.setState({
