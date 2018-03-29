@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import Theme from 'application/Theme';
+
 const ApplicationWrapper = styled.div`
     background-color: white;
     padding: 40px;
@@ -8,12 +10,14 @@ const ApplicationWrapper = styled.div`
 `;
 
 interface Props {
-    children: React.ReactChildren;
+    children: React.ReactNode;
 }
 
-const Layout: React.StatelessComponent = ({ children }) => (
+const Layout: React.StatelessComponent<Props> = ({ children }) => (
     <ApplicationWrapper>
-        {children}
+        <Theme>
+            {children}
+        </Theme>
     </ApplicationWrapper>
 );
 

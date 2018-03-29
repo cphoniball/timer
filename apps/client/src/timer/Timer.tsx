@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import * as moment from 'moment';
 
+import Button from 'global/form/Button';
 import TimeEntry from 'timer/time_entry/time_entry.interface';
 
 import api from 'global/api/api.provider';
@@ -83,8 +84,8 @@ class Timer extends React.Component<Props, State> {
                 </div>}
 
                 {isRunning
-                    ? <button onClick={this.stop}>Stop Timer</button>
-                    : <button onClick={start}>Start Timer</button>
+                    ? <Button onClick={this.stop}>Stop Timer</Button>
+                    : <Button onClick={start}>Start Timer</Button>
                 }
             </TimerPanel>
         );
