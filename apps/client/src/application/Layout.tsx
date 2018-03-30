@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Theme from 'application/Theme';
 
 const ApplicationWrapper = styled.div`
-    background-color: white;
+    background-color: ${props => props.theme.background};
     padding: 40px;
     min-height: 100vh;
 `;
@@ -14,11 +14,11 @@ interface Props {
 }
 
 const Layout: React.StatelessComponent<Props> = ({ children }) => (
-    <ApplicationWrapper>
-        <Theme>
+    <Theme>
+        <ApplicationWrapper>
             {children}
-        </Theme>
-    </ApplicationWrapper>
+        </ApplicationWrapper>
+    </Theme>
 );
 
 export default Layout;
