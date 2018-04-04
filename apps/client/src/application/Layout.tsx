@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Theme from 'application/Theme';
 
 const ApplicationWrapper = styled.div`
-    background-color: ${props => props.theme.background};
+    background-color: ${props => props.theme.color.background};
     padding: 40px;
     min-height: 100vh;
 `;

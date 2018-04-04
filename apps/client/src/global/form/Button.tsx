@@ -8,8 +8,8 @@ interface Props {
 }
 
 const StyledButton = styled.button`
-    background-color: ${props => props.theme.main};
-    color: ${props => props.theme.white};
+    background-color: ${props => props.theme.color.main};
+    color: ${props => props.theme.color.white};
     padding: 10px 15px;
 `;
 

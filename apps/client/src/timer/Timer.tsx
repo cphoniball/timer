@@ -1,9 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import styledComponentsTS from 'styled-components-ts';
 
 import * as moment from 'moment';
 
 import Button from 'global/form/Button';
+import Input, { InputProps } from 'global/form/Input';
 import TimeEntry from 'timer/time_entry/time_entry.interface';
 
 import api from 'global/api/api.provider';
@@ -11,11 +13,16 @@ import api from 'global/api/api.provider';
 import { formatSeconds } from 'timer/timer.utilities';
 
 const TimerPanel = styled.div`
-    border: 1px solid grey;
     background-color: white;
     box-shadow: 1px 1px 1px black;
     padding: 30px;
     display: inline-block;
+    width: 100%;
+    display: flex;
+`;
+
+const Description = styledComponentsTS<InputProps>(styled(Input))`
+    flex: 1;
 `;
 
 interface Props {
@@ -78,7 +85,7 @@ class Timer extends React.Component<Props, State> {
 
         return (
             <TimerPanel>
-                <h2>{isRunning ? 'The timer is running' : 'The timer is stopped'}</h2>
+                <Description value="Testing" onChange={() => {}} />
                 {!!this.state.elapsedSeconds && <div>
                     {formatSeconds(this.state.elapsedSeconds)}
                 </div>}

@@ -1,15 +1,22 @@
 import * as React from 'react';
 
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 const theme = {
-    background: '#EDEAE8',
-    black: '#000000',
-    fail: '#FF7B7E',
-    main: '#3876B2',
-    success: '#79F78C',
-    warning: '#FFF8A2',
-    white: '#FFFFFF'
+    color: {
+        background: '#EDEAE8',
+        black: '#000000',
+        fail: '#FF7B7E',
+        main: '#3876B2',
+        success: '#79F78C',
+        warning: '#FFF8A2',
+        white: '#FFFFFF',
+    },
+    font: {
+        base: {
+            size: '1.6rem'
+        }
+    }
 };
 
 interface Props {
@@ -18,7 +25,7 @@ interface Props {
 
 const Theme: React.StatelessComponent<Props> = ({ children }) => (
      <ThemeProvider theme={theme}>
-         {children}
+        {children}
      </ThemeProvider>
 );
 
