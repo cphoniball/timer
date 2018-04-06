@@ -12,8 +12,8 @@ export interface InputProps {
     [x: string]: any;
 }
 
-const StyledInput: React.StatelessComponent<InputProps> = ({ value, onChange, ...props }) => (
-    <Input value={value} onChange={onChange} {...props} />
+const StyledInput: React.StatelessComponent<InputProps> = ({ value, onChange: handleChange, ...props }) => (
+    <Input value={value} onChange={handleChange} {...props} />
 );
 
 export default StyledInput;

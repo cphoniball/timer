@@ -30,6 +30,7 @@ interface Props {
     isRunning: boolean;
     start(): Promise<any>;
     stop(): Promise<any>;
+    updateDescription(event: React.FormEvent<HTMLInputElement>): void;
 }
 
 interface State {
@@ -85,7 +86,7 @@ class Timer extends React.Component<Props, State> {
 
         return (
             <TimerPanel>
-                <Description value="Testing" onChange={() => {}} />
+                <Description value={timeEntry.description} onChange={this.props.updateDescription} />
                 {!!this.state.elapsedSeconds && <div>
                     {formatSeconds(this.state.elapsedSeconds)}
                 </div>}
