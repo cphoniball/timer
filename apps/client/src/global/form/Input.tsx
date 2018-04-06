@@ -1,14 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const Input = styled.input`
-    padding: 15px 20px;
-`;
+const Input = styled.input``;
 
 export interface InputProps {
     className?: string;
     value: string;
-    onChange(): void;
+    onChange(event: React.FormEvent<HTMLInputElement>): void;
     [x: string]: any;
 }
 

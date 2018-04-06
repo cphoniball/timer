@@ -1,11 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import styledComponentsTS from 'styled-components-ts';
 
 import * as moment from 'moment';
 
 import Button from 'global/form/Button';
-import Input, { InputProps } from 'global/form/Input';
+import Details from 'timer/Details';
 import TimeEntry from 'timer/time_entry/time_entry.interface';
 
 import api from 'global/api/api.provider';
@@ -21,16 +20,12 @@ const TimerPanel = styled.div`
     display: flex;
 `;
 
-const Description = styledComponentsTS<InputProps>(styled(Input))`
-    flex: 1;
-`;
-
 interface Props {
     timeEntry: TimeEntry;
     isRunning: boolean;
     start(): Promise<any>;
     stop(): Promise<any>;
-    updateDescription(event: React.FormEvent<HTMLInputElement>): void;
+    onDescriptionChange(description: string): void;
 }
 
 interface State {
@@ -86,7 +81,7 @@ class Timer extends React.Component<Props, State> {
 
         return (
             <TimerPanel>
-                <Description value={timeEntry.description} onChange={this.props.updateDescription} />
+                <Details onDescriptionChange={this.props.onDescriptionChange} timeEntry={timeEntry} />
                 {!!this.state.elapsedSeconds && <div>
                     {formatSeconds(this.state.elapsedSeconds)}
                 </div>}

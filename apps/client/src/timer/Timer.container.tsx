@@ -81,8 +81,8 @@ export default class TimerContainer extends React.Component<Props, State> {
         }
     }
 
-    public updateDescription = (event: React.FormEvent<HTMLInputElement>) => {
-        this.setState({ timeEntry: { ...this.state.timeEntry, description: event.currentTarget.value } });
+    public handleDescriptionChange = (description: string) => {
+        this.setState({ timeEntry: { ...this.state.timeEntry, description } });
     }
 
     public render() {
@@ -92,7 +92,7 @@ export default class TimerContainer extends React.Component<Props, State> {
                 start={this.start}
                 stop={this.stop}
                 timeEntry={this.state.timeEntry}
-                updateDescription={this.updateDescription}
+                onDescriptionChange={this.handleDescriptionChange}
             />
         );
     }
