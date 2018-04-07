@@ -81,10 +81,7 @@ class Timer extends React.Component<Props, State> {
 
         return (
             <TimerPanel>
-                <Details onDescriptionChange={this.props.onDescriptionChange} timeEntry={timeEntry} />
-                {!!this.state.elapsedSeconds && <div>
-                    {formatSeconds(this.state.elapsedSeconds)}
-                </div>}
+                <Details onDescriptionChange={this.props.onDescriptionChange} timeEntry={timeEntry} elapsedSeconds={this.state.elapsedSeconds} />
 
                 {isRunning
                     ? <Button onClick={this.stop}>Stop Timer</Button>

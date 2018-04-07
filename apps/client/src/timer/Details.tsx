@@ -4,6 +4,7 @@ import styledComponentsTS from 'styled-components-ts';
 
 import Input, { InputProps } from 'global/form/Input';
 
+import ElapsedTime from 'timer/ElapsedTime';
 import TimeEntry from 'timer/time_entry/time_entry.interface';
 
 const DetailsWrap = styled.div`
@@ -12,6 +13,7 @@ const DetailsWrap = styled.div`
 `;
 
 interface Props {
+    elapsedSeconds: number;
     timeEntry: TimeEntry;
     onDescriptionChange(description: string): void;
 }
@@ -28,6 +30,7 @@ const Details: React.StatelessComponent<Props> = props => {
     return (
         <DetailsWrap>
             <Input value={props.timeEntry.description} onChange={handleDescriptionChange} />
+            <ElapsedTime elapsedSeconds={props.elapsedSeconds} />
         </DetailsWrap>
     );
 };
