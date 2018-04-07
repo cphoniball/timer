@@ -13,8 +13,6 @@ import { formatSeconds } from 'timer/timer.utilities';
 
 const TimerPanel = styled.div`
     background-color: white;
-    box-shadow: 1px 1px 1px black;
-    padding: 30px;
     display: inline-block;
     width: 100%;
     display: flex;

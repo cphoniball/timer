@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { formatSeconds } from 'timer/timer.utilities';
 
-interface Props {
+export interface Props {
     className?: string;
     elapsedSeconds: number;
 }
