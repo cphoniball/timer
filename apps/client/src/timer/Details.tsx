@@ -40,7 +40,7 @@ const Details: React.StatelessComponent<Props> = props => {
 
     return (
         <DetailsWrap>
-            <Description value={props.timeEntry.description} onChange={handleDescriptionChange} />
+            <Description value={props.timeEntry.description} onChange={handleDescriptionChange} placeholder="What are you working on?" />
             <DetailsElapsedTime elapsedSeconds={props.elapsedSeconds} />
         </DetailsWrap>
     );
