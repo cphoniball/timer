@@ -9,11 +9,9 @@ defmodule TimerWeb.AuthController do
 
   def login(conn, %{"email" => email, "password" => password}) do
     with {:ok, %User{} = user} <- Accounts.authenticate_by_email_password(email, password),
-         conn <- Guardian.Plug.sign_in(conn, user),
-         token = Guardian.Plug.current_token(conn),
-         claims = Guardian.Plug.current_claims(conn)
+         {:ok, token, _claims} <- Guardian.encode_and_sign(user)
     do
-      conn |> render("logged_in.json", %{claims: claims, token: token})
+      conn |> render("logged_in.json", %{token: token})
     else
       {:error, :unauthorized} -> conn |> put_status(:unauthorized) |> render("unauthorized.json")
     end
