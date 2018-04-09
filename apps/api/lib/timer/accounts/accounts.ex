@@ -4,6 +4,16 @@ defmodule Timer.Accounts do
   alias Timer.Repo
   alias Timer.Accounts.User
 
+  def authenticate_by_email_password(email, password) do
+    with %User{} = user <- Repo.one(from u in User, where: u.email == ^email),
+         true <- Comeonin.Bcrypt.checkpw(password, user.password)
+    do
+      {:ok, user}
+    else
+      _ -> {:error, :unauthorized}
+    end
+  end
+
   def list_users, do: Repo.all(User)
 
   def get_user(id) do

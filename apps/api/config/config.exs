@@ -23,6 +23,11 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Configure Guardian
+config :timer, TimerWeb.Guardian,
+      issuer: "Timer",
+      secret_key: "FEHXgsKtqU16vRxlQ971XUPIbYHyOPM3IR+wXRPtkWdIFbyjQdYlVkkRMFoMBQpv" # Override in different environments
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
