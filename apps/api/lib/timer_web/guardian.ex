@@ -18,7 +18,7 @@ defmodule TimerWeb.Guardian do
   Given claims from a token, get the resource that the token is responsible for
   """
   def resource_from_claims(claims) do
-    {:ok, Accounts.get_user(claims["sub"])}
+    Accounts.get_user(claims["sub"])
   end
 
   def resource_from_claims(_claims), do: {:error, :no_claims}

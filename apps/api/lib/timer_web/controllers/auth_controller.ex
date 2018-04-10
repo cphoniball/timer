@@ -1,6 +1,7 @@
 defmodule TimerWeb.AuthController do
   use TimerWeb, :controller
 
+  alias Plug.Conn
   alias Timer.Accounts.User
   alias Timer.Accounts
   alias TimerWeb.Guardian
@@ -24,9 +25,14 @@ defmodule TimerWeb.AuthController do
   @doc """
   Get the currently authenticated user based on the connections JWT
   """
-  def me(conn, %{"token" => token}) do
-    # TODO: Handle the case where there is not an authenticated user here
-    user = conn |> Guardian.Plug.current_resource()
-    render(conn, TimerWeb.UserView, "show.json", %{user: user})
+  def me(conn, _params) do
+    with [authorization_header] <- Conn.get_req_header(conn, "authorization"),
+         token <- String.replace(authorization_header, "Bearer ", ""),
+         {:ok, user, _claims} <- Guardian.resource_from_token(token)
+    do
+      render(conn, TimerWeb.UserView, "show.json", %{user: user})
+    else
+      {:error, _details} -> conn |> put_status(:unauthorized) |> render("unauthorized.json")
+    end
   end
 end

@@ -5,6 +5,10 @@ defmodule TimerWeb.ErrorView do
     %{data: nil, errors: %{message: "Resource not found.", detail: []}}
   end
 
+  def render("500.json", %{error: error}) do
+    %{data: nil, errors: %{message: error, detail: []}}
+  end
+
   def render("500.json", _assigns) do
     %{data: nil, errors: %{message: "Internal server error.", detail: []}}
   end
