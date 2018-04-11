@@ -2,7 +2,6 @@ defmodule TimerWeb.TimeEntryChannel do
   use TimerWeb, :channel
 
   alias Timer.Timer.TimeEntry
-  alias Timer.Timer
 
   def join("time_entry:lobby", _payload, socket) do
     {:ok, socket}

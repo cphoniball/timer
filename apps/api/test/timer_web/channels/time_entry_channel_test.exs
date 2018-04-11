@@ -11,13 +11,13 @@ defmodule TimerWeb.TimeEntryChannelTest do
     {:ok, socket: socket}
   end
 
-  describe "broadcast_stop" do
+  describe "broadcast" do
     test "should broadcast the passed time entry to all sockets" do
-      with time_entry <- insert(:time_entry),
-           TimeEntryChannel.broadcast_stop(time_entry),
-           expected_payload <- %{id: time_entry.id, started_at: time_entry.started_at, ended_at: time_entry.ended_at}
+      with time_entry = insert(:time_entry),
+           TimeEntryChannel.broadcast("stop", time_entry),
+           expected_result = %{id: time_entry.id, started_at: time_entry.started_at, ended_at: time_entry.ended_at}
       do
-        assert_broadcast("stop", expected_payload)
+        assert_broadcast("stop", ^expected_result)
       end
     end
   end

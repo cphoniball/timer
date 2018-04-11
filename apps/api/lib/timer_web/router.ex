@@ -12,7 +12,6 @@ defmodule TimerWeb.Router do
 
     # Authentication
     post "/login", AuthController, :login
-    post "/logout", AuthController, :logout
     get "/me", AuthController, :me
 
     get "/users", UserController, :index

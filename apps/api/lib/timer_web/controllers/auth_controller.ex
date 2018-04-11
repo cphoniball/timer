@@ -18,12 +18,9 @@ defmodule TimerWeb.AuthController do
     end
   end
 
-  def logout(conn, _params) do
-    conn |> Guardian.Plug.sign_out() |> render("logged_out.json")
-  end
-
   @doc """
-  Get the currently authenticated user based on the connections JWT
+  Get the currently authenticated user based on the connection's JWT token
+  contained in the authorization header
   """
   def me(conn, _params) do
     with [authorization_header] <- Conn.get_req_header(conn, "authorization"),

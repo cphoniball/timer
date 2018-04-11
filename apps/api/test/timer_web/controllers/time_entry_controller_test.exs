@@ -18,7 +18,7 @@ defmodule TimerWeb.TimeEntryControllerTest do
   describe "active" do
     test "should return a list of the active time entries", %{conn: conn} do
       with active <- insert(:time_entry),
-           inactive <- insert(:time_entry, %{ended_at: DateTime.utc_now()}),
+           _inactive <- insert(:time_entry, %{ended_at: DateTime.utc_now()}),
            conn <- get(conn, time_entry_path(conn, :active)),
            response <- response(conn, 200)
       do
@@ -74,7 +74,7 @@ defmodule TimerWeb.TimeEntryControllerTest do
       end
     end
 
-    test "should return a 404 response if the time entry cannot be found", %{conn: conn, body: body} do
+    test "should return a 404 response if the time entry cannot be found", %{conn: conn} do
       conn = put(conn, time_entry_path(conn, :stop, 1000000))
 
       assert json_response(conn, 404) == %{

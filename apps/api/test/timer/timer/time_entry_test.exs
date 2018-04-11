@@ -1,7 +1,6 @@
 defmodule Timer.TimeEntryTest do
   use Timer.DataCase
   alias Timer.Timer.TimeEntry
-  alias Timer.Accounts.User
 
   describe "time_entry belongs to a user" do
     test "should be able to access a time entry's user with time_entry.user" do
