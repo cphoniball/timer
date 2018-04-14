@@ -24,6 +24,15 @@ defmodule TimerWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint TimerWeb.Endpoint
+
+      def build_authenticated_conn() do
+        with password <- Faker.Lorem.word(),
+             user <- insert(:user, %{password: Comeonin.Bcrypt.hashpwsalt(password)}),
+             {:ok, token, _claims} <- TimerWeb.Guardian.encode_and_sign(user)
+        do
+          build_conn() |> put_req_header("authorization", "Bearer " <> token)
+        end
+      end
     end
   end
 

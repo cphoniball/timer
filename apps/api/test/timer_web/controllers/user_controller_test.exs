@@ -5,7 +5,7 @@ defmodule TimerWeb.UserControllerTest do
 
   setup _context do
     %{
-      conn: build_conn(),
+      conn: build_authenticated_conn(),
       user: insert(:user)
     }
   end
@@ -13,11 +13,11 @@ defmodule TimerWeb.UserControllerTest do
   test "index renders a list of users", %{conn: conn, user: user} do
     conn = get(conn, user_path(conn, :index))
 
-    assert json_response(conn, 200)["data"] == [%{
+    assert Enum.member?(json_response(conn, 200)["data"], %{
       "id" => user.id,
       "name" => user.name,
       "email" => user.email
-    }]
+    })
   end
 
   test "show renders a single user", %{conn: conn, user: user} do

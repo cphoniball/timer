@@ -5,6 +5,10 @@ defmodule TimerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :require_authentication do
+    plug TimerWeb.Auth.Pipeline
+  end
+
   scope "/", TimerWeb do
     pipe_through :timer
 
@@ -13,6 +17,10 @@ defmodule TimerWeb.Router do
     # Authentication
     post "/token", AuthController, :create_token
     get "/me", AuthController, :me
+  end
+
+  scope "/", TimerWeb do
+    pipe_through [:timer, :require_authentication]
 
     get "/users", UserController, :index
     get "/users/:user_id", UserController, :show

@@ -10,7 +10,7 @@ defmodule TimerWeb.TimeEntryControllerTest do
     user = insert(:user)
 
     %{
-      conn: build_conn(),
+      conn: build_authenticated_conn(),
       body: %{"time_entry" => %{"user" => %{"id" => user.id}}}
     }
   end
