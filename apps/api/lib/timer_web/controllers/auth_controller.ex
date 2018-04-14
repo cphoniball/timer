@@ -21,12 +21,13 @@ defmodule TimerWeb.AuthController do
   contained in the authorization header
   """
   def me(conn, _params) do
-    with [authorization_header] <- Conn.get_req_header(conn, "authorization"),
+    with [authorization_header] when not is_nil(authorization_header) <- Conn.get_req_header(conn, "authorization"),
          token <- String.replace(authorization_header, "Bearer ", ""),
          {:ok, user, _claims} <- Guardian.resource_from_token(token)
     do
       render(conn, TimerWeb.UserView, "show.json", %{user: user})
     else
+      [] -> {:error, :unprocessable_entity}
       {:error, _details} -> {:error, :unauthorized}
     end
   end

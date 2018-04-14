@@ -28,6 +28,12 @@ defmodule TimerWeb.FallbackController do
     |> render(TimerWeb.ErrorView, "404.json")
   end
 
+  def call(conn, {:error, :unprocessable_entity}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> render(TimerWeb.ErrorView, "422.json")
+  end
+
   def call(conn, {:error, error}) do
     conn
     |> put_status(:internal_server_error)
