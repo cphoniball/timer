@@ -13,8 +13,6 @@ defmodule TimerWeb.AuthController do
          {:ok, token, _claims} <- Guardian.encode_and_sign(user)
     do
       conn |> render("logged_in.json", %{token: token})
-    else
-      {:error, :unauthorized} -> conn |> put_status(:unauthorized) |> render("unauthorized.json")
     end
   end
 
@@ -29,7 +27,7 @@ defmodule TimerWeb.AuthController do
     do
       render(conn, TimerWeb.UserView, "show.json", %{user: user})
     else
-      {:error, _details} -> conn |> put_status(:unauthorized) |> render("unauthorized.json")
+      {:error, _details} -> {:error, :unauthorized}
     end
   end
 end

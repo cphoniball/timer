@@ -11,6 +11,15 @@ defmodule TimerWeb.FallbackController do
   end
 
   @doc """
+  Falback method for endpoints where the user is not authorized
+  """
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(:unauthorized)
+    |> render(TimerWeb.ErrorView, "401.json")
+  end
+
+  @doc """
   Fallback method for resource endpoints when that resource is not found.
   """
   def call(conn, {:error, :not_found}) do
