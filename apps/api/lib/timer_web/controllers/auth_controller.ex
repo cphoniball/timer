@@ -8,7 +8,7 @@ defmodule TimerWeb.AuthController do
 
   action_fallback TimerWeb.FallbackController
 
-  def login(conn, %{"email" => email, "password" => password}) do
+  def create_token(conn, %{"email" => email, "password" => password}) do
     with {:ok, %User{} = user} <- Accounts.authenticate_by_email_password(email, password),
          {:ok, token, _claims} <- Guardian.encode_and_sign(user)
     do

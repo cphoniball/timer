@@ -11,7 +11,7 @@ defmodule TimerWeb.Router do
     get "/", ApiController, :index
 
     # Authentication
-    post "/login", AuthController, :login
+    post "/token", AuthController, :create_token
     get "/me", AuthController, :me
 
     get "/users", UserController, :index

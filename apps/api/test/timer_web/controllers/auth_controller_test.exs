@@ -12,10 +12,10 @@ defmodule AuthControllerTest do
     %{conn: build_conn(), user: user, password: password}
   end
 
-  describe "login" do
+  describe "create_token/2" do
     test "should respond with an access token if the username password combination is correct", %{conn: conn, user: user, password: password} do
       %{"data" => %{"token" => token}} = conn
-      |> post(auth_path(conn, :login), %{email: user.email, password: password})
+      |> post(auth_path(conn, :create_token), %{email: user.email, password: password})
       |> json_response(200)
 
       {:ok, resource, _claims} = Guardian.resource_from_token(token)
@@ -24,23 +24,23 @@ defmodule AuthControllerTest do
 
     test "should respond with an unauthorized response if the password is not correct", %{conn: conn, user: user} do
       conn
-      |> post(auth_path(conn, :login), %{email: user.email, password: Faker.Lorem.words(3) |> Enum.join(" ")})
+      |> post(auth_path(conn, :create_token), %{email: user.email, password: Faker.Lorem.words(3) |> Enum.join(" ")})
       |> response(401)
       |> assert_unauthorized_response()
     end
 
     test "should respond with an unauthorized resopnse if the username does not exist", %{conn: conn} do
       conn
-      |> post(auth_path(conn, :login), %{email: Faker.Internet.email(), password: Faker.Lorem.word()})
+      |> post(auth_path(conn, :create_token), %{email: Faker.Internet.email(), password: Faker.Lorem.word()})
       |> response(401)
       |> assert_unauthorized_response()
     end
   end
 
-  describe "me" do
+  describe "me/2" do
     setup %{conn: conn, user: user, password: password} do
       %{"data" => %{"token" => token}} = conn
-      |> post(auth_path(conn, :login), %{email: user.email, password: password})
+      |> post(auth_path(conn, :create_token), %{email: user.email, password: password})
       |> json_response(200)
 
       %{conn: conn, user: user, token: token}
