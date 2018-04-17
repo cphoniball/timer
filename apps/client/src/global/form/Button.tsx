@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-interface Props {
+export interface ButtonProps {
     children: React.ReactNode;
-    onClick(): any;
+    onClick?(): any;
     [x: string]: any;
 }
 
@@ -11,9 +11,10 @@ const StyledButton = styled.button`
     background-color: ${props => props.theme.color.main};
     color: ${props => props.theme.color.white};
     padding: 10px 15px;
+    border: none;
 `;
 
-const Button: React.StatelessComponent<Props> = ({ children,...props }) => (
+const Button: React.StatelessComponent<ButtonProps> = ({ children,...props }) => (
      <StyledButton {...props}>{children}</StyledButton>
 );
 

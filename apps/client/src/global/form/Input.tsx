@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const Input = styled.input``;
+const Input = styled.input`
+    padding: 10px 15px;
+`;
 
 export interface InputProps {
     className?: string;

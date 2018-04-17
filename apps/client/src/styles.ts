@@ -19,4 +19,21 @@ export default injectGlobal`
     * , *:before, *:after {
         box-sizing: inherit;
     }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: sans-serif;
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 3.6rem;
+    }
+
+    h2 {
+        font-size: 3rem;
+    }
+
+    h3 {
+        font-size: 2.4rem;
+    }
 `;

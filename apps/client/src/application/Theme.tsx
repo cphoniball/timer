@@ -7,6 +7,7 @@ const theme = {
         background: '#EDEAE8',
         black: '#000000',
         fail: '#FF7B7E',
+        grey: '#D6D3D2',
         main: '#3876B2',
         success: '#79F78C',
         warning: '#FFF8A2',
