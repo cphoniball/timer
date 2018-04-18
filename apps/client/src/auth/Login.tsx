@@ -4,11 +4,12 @@ import styledComponentsTS from 'styled-components-ts';
 
 import Button, { ButtonProps } from 'global/form/Button';
 import Input, { InputProps } from 'global/form/Input';
+import Form from 'global/form/Form';
 
-interface Props {
-    email: string;
-    password: string;
-    onChange(): void;
+import { Credentials } from 'auth/credentials.interface';
+
+interface Props extends Credentials {
+    onChange(event: React.FormEvent<HTMLInputElement>): void;
     onSubmit(): void;
 }
 
@@ -45,11 +46,11 @@ const Login: React.StatelessComponent<Props> = ({ email, password, onChange, onS
         <Header>
             <Title>Log In</Title>
         </Header>
-        <form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit}>
             <LoginInput name="email" value={email} onChange={onChange} placeholder="Email" />
             <LoginInput name="password" type="password" value={password} onChange={onChange} placeholder="Password" />
             <SubmitButton type="submit" disabled={email.length && password.length ? false : true}>Log In</SubmitButton>
-        </form>
+        </Form>
      </LoginPanel>
 );
 
