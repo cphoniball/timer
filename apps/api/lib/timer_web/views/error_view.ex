@@ -2,7 +2,7 @@ defmodule TimerWeb.ErrorView do
   use TimerWeb, :view
 
   def render("401.json", _params) do
-    %{data: %{message: "Unauthorized."}}
+    %{status: 401, data: nil, errors: %{message: "Unauthorized."}}
   end
 
   def render("404.json", _assigns) do

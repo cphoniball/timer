@@ -6,18 +6,20 @@ import authApi from 'auth/auth.api';
 
 import { Credentials } from 'auth/credentials.interface';
 
-const initialState = {
+interface State {
+    credentials: Credentials;
+    error: string;
+}
+
+const initialState: State = {
     credentials: {
         email: '',
         password: ''
-    }
+    },
+    error: null
 };
 
 interface Props {}
-
-type State = Readonly<{
-    credentials: Credentials;
-}>;
 
 class LoginContainer extends React.Component<Props, State> {
     public readonly state: State = initialState;
@@ -27,8 +29,11 @@ class LoginContainer extends React.Component<Props, State> {
     }
 
     public handleSubmit = async () => {
-        const response = await authApi.token(this.state.credentials);
-        console.log(response);
+        try {
+            const response = await authApi.token(this.state.credentials);
+        } catch (error) {
+            this.setState({ error: 'Invalid username or password.' });
+        }
     }
 
     public render() {
@@ -38,6 +43,7 @@ class LoginContainer extends React.Component<Props, State> {
                 password={this.state.credentials.password}
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
+                error={this.state.error}
             />
         );
     }

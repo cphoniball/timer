@@ -2,13 +2,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 import styledComponentsTS from 'styled-components-ts';
 
+import Error from 'global/alert/Error';
 import Button, { ButtonProps } from 'global/form/Button';
-import Input, { InputProps } from 'global/form/Input';
 import Form from 'global/form/Form';
+import Input, { InputProps } from 'global/form/Input';
 
 import { Credentials } from 'auth/credentials.interface';
 
 interface Props extends Credentials {
+    error: string;
     onChange(event: React.FormEvent<HTMLInputElement>): void;
     onSubmit(): void;
 }
@@ -28,6 +30,12 @@ const LoginPanel = styled.div`
     border: 1px solid ${props => props.theme.color.grey};
 `;
 
+const FormGroup = styled.div`
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 10px;
+`;
+
 const Title = styled.h2`
     text-align: center;
 `;
@@ -37,11 +45,7 @@ const LoginInput = styledComponentsTS<InputProps>(styled(Input))`
     margin-bottom: 10px;
 `;
 
-const SubmitButton = styledComponentsTS<ButtonProps>(styled(Button))`
-    float: right;
-`;
-
-const Login: React.StatelessComponent<Props> = ({ email, password, onChange, onSubmit }) => (
+const Login: React.StatelessComponent<Props> = ({ email, error, password, onChange, onSubmit }) => (
      <LoginPanel>
         <Header>
             <Title>Log In</Title>
@@ -49,8 +53,11 @@ const Login: React.StatelessComponent<Props> = ({ email, password, onChange, onS
         <Form onSubmit={onSubmit}>
             <LoginInput name="email" value={email} onChange={onChange} placeholder="Email" />
             <LoginInput name="password" type="password" value={password} onChange={onChange} placeholder="Password" />
-            <SubmitButton type="submit" disabled={email.length && password.length ? false : true}>Log In</SubmitButton>
+            <FormGroup>
+                <Button type="submit" disabled={email.length && password.length ? false : true}>Log In</Button>
+            </FormGroup>
         </Form>
+        {error && <Error>{error}</Error>}
      </LoginPanel>
 );
 

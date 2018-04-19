@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-interface Props {
+export interface FormProps {
     children: React.ReactNode;
     onSubmit(event: React.FormEvent<HTMLFormElement>): any;
     [x: string]: any;
@@ -9,7 +9,7 @@ interface Props {
 /**
  * Intercept the default form event so that we don't submit pages
  */
-const Form: React.StatelessComponent<Props> = ({ children, onSubmit, ...props }) => {
+const Form: React.StatelessComponent<FormProps> = ({ children, onSubmit, ...props }) => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
