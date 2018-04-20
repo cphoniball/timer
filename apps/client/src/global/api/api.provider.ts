@@ -17,6 +17,12 @@ timerApi.parseJsonResponse = (body: ApiResponse) => {
     return body.data;
 };
 
+timerApi.injectHeaders = () => {
+    const token = localStorage.getItem('access_token');
+    // return {};
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
 timerApi.parseJsonResponse.bind(timerApi);
 
 export default timerApi;

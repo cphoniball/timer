@@ -20,7 +20,7 @@ defmodule TimerWeb.Endpoint do
   plug Plug.RequestId
   plug Plug.Logger
 
-  plug Corsica, origins: "http://client.timer.test", allow_headers: ["content-type"]
+  plug Corsica, origins: "http://client.timer.test", allow_headers: ["authorization", "content-type"]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

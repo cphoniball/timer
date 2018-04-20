@@ -20,6 +20,15 @@ export default class Http {
         return json;
     }
 
+    /**
+     * Called right before every request and injects the returned value into the request headers.
+     *
+     * Can be overriden in child classes to add common headers e.g. for Authorization
+     */
+    public injectHeaders() {
+        return {};
+    }
+
     public get(url: string, queryObject: object = {} ) {
         const query = Object.keys(queryObject).length ? queryString.stringify(queryObject) : '';
         return this.request(url + query);
@@ -55,7 +64,15 @@ export default class Http {
     }
 
     private async request(url: string, options: RequestInit = {}): Promise<any> {
-        const requestOptions: RequestInit = { ...this.options, ...options };
+        const requestOptions: RequestInit = {
+            ...this.options,
+            ...options,
+            headers: {
+                ...this.options.headers,
+                ...options.headers,
+                ...this.injectHeaders()
+            }
+        };
 
         const response = await fetch(this.resolveUrl(url), requestOptions);
         const json = await response.json();
