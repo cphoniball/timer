@@ -2,6 +2,7 @@ defmodule TimerWeb.TimeEntryController do
   use TimerWeb, :controller
 
   alias TimerWeb.TimeEntryChannel
+  alias TimerWeb.Guardian
   alias Timer.Timer
 
   action_fallback TimerWeb.FallbackController
@@ -11,7 +12,11 @@ defmodule TimerWeb.TimeEntryController do
   end
 
   def create(conn, %{"time_entry" => params}) do
-    with {:ok, time_entry} <- Timer.create_time_entry(params) do
+    # TODO: Figure out why I can't use Guardian.Plug.current_resource() here
+    with {:ok, user, _claims} <- Guardian.Plug.current_token(conn) |> Guardian.resource_from_token(),
+         time_entry <- Map.put(params, "user", user),
+         {:ok, time_entry} <- Timer.create_time_entry(time_entry)
+    do
       # Broadcast start event to all clients so that separate clients sync statea
       TimeEntryChannel.broadcast("start", time_entry)
       conn |> put_status(:created) |> render("show.json", %{time_entry: time_entry})
