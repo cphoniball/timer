@@ -62,3 +62,12 @@ config :logger, level: :info
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
+
+config :timer, Timer.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "root",
+  database: "timer",
+  hostname: "db",
+  port: 5432,
+  pool_size: 10

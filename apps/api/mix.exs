@@ -41,6 +41,7 @@ defmodule Timer.Mixfile do
   defp deps do
     [
       {:corsica, "~> 1.0"},
+      {:distillery, "~> 1.5", runtime: false},
       {:phoenix, "~> 1.3.0-rc"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
