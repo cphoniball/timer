@@ -18,4 +18,18 @@ Build the release using Distillery:
 `MIX_ENV=prod mix release` to build the production release
 ```
 
+This will generate a new release at a folder path like `_build/${environment}/rel/${application_name}/releases/${version}` that contains a file `${application_name}.tar.gz`. Copy that file into the directory you want your release to run from and untar it with:
 
+```bash
+tar xvf APPLICATION_NAME.tar.gz
+```
+
+Then run the application as a daemon with
+
+```bash
+PORT=80 ./bin/timer start
+```
+
+You should be all set!
+
+TODO: Document if there are any differences here between deploying a new application and upgrading an existing one.
