@@ -9,7 +9,14 @@ defmodule Timer.Factory do
     }
   end
 
-  # TODO: How am I supposed to do relationships in these factories?
+  def time_entry_factory do
+    %Timer.Timer.TimeEntry{
+      description: Faker.Lorem.sentence(),
+      started_at: Faker.DateTime.backward(1),
+      user: build(:user)
+    }
+  end
+
   def client_factory do
     %Timer.Clients.Client{
       name: Faker.Name.name(),

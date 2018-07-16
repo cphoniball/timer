@@ -22,7 +22,7 @@ defmodule Timer.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Timer.DataCase
-      import TimerWeb.Factory
+      import Timer.Factory
     end
   end
 
