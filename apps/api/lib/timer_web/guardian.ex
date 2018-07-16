@@ -21,5 +21,6 @@ defmodule TimerWeb.Guardian do
     Accounts.get_user(claims["sub"])
   end
 
-  def resource_from_claims(_claims), do: {:error, :no_claims}
+  # TODO: This isn't properly going to match no claims here
+  # def resource_from_claims(_claims), do: {:error, :no_claims}
 end

@@ -2,13 +2,14 @@ defmodule Timer.Clients.Client do
   use Ecto.Schema
   import Ecto.Changeset
   alias Timer.Accounts.User
+  alias Timer.Clients.Client
 
   schema "clients" do
     field :name, :string
 
     timestamps()
 
-    belongs_to :users, User
+    belongs_to :user, User
   end
 
   @doc """

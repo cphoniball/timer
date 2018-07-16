@@ -10,12 +10,14 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Timer.Factory
+import Timer.Factory
 
-Timer.Repo.insert!(%Timer.Accounts.User{
+insert(:user, %{
   name: "Chris",
   email: "chris@chrishoniball.com",
   password: Comeonin.Bcrypt.hashpwsalt("password")
 })
 
-for _ <- 1..30, do: Factory.user()
+# TODO: Modify this so that we create a client for each user
+for _ <- 1..10, do: insert(:user)
+for _ <- 1..10, do: insert(:client)
