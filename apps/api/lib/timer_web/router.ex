@@ -22,16 +22,18 @@ defmodule TimerWeb.Router do
   scope "/", TimerWeb do
     pipe_through [:timer, :require_authentication]
 
-    get "/users", UserController, :index
-    get "/users/:user_id", UserController, :show
-    post "/users", UserController, :create
-    put "/users/:user_id", UserController, :update
-    delete "/users/:user_id", UserController, :delete
+    post "/clients", ClientController, :create
 
     get "/time_entries/active", TimeEntryController, :active
     post "/time_entries", TimeEntryController, :create
     post "/time_entries/start", TimeEntryController, :start
     put "/time_entries/:time_entry_id", TimeEntryController, :update
     put "/time_entries/:time_entry_id/stop", TimeEntryController, :stop
+
+    get "/users", UserController, :index
+    get "/users/:user_id", UserController, :show
+    post "/users", UserController, :create
+    put "/users/:user_id", UserController, :update
+    delete "/users/:user_id", UserController, :delete
   end
 end
