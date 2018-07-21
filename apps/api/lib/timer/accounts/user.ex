@@ -2,7 +2,6 @@ defmodule Timer.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Timer.Accounts.User
-  alias Timer.Timer.TimeEntry
 
   schema "users" do
     field :email, :string
@@ -12,7 +11,8 @@ defmodule Timer.Accounts.User do
     field :password, :string
     timestamps()
 
-    has_many :time_entries, TimeEntry
+    has_many :time_entries, Timer.Timer.TimeEntry
+    has_many :clients, Timer.Clients.Client
   end
 
   @doc false

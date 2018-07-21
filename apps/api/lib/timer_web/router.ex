@@ -22,6 +22,7 @@ defmodule TimerWeb.Router do
   scope "/", TimerWeb do
     pipe_through [:timer, :require_authentication]
 
+    get "/clients", ClientController, :get
     post "/clients", ClientController, :create
 
     get "/time_entries/active", TimeEntryController, :active
