@@ -2,6 +2,15 @@ version: "3"
 
 services:
 
+  # Hackaround to bring up only dependencies so you can run phoenix and webpack locally
+  # User like docker-compose up -d deps
+  deps:
+    image: tianon/true
+    depends_on:
+      - nginx-proxy
+      - db
+      - db-test
+
  # Proxies requests to the different containers so we can use real-ish hostnames while developing
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -9,6 +18,8 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./docker/nginx/api.timer.test.conf:/etc/nginx/conf.d/api.timer.test.conf
+      - ./docker/nginx/client.timer.test.conf:/etc/nginx/conf.d/client.timer.test.conf
     networks:
       - application
 

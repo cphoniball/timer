@@ -6,7 +6,7 @@ defmodule TimerWeb.ClientController do
 
   action_fallback TimerWeb.FallbackController
 
-  def get(conn, _params) do
+  def index(conn, _params) do
     with {:ok, user, _claims} <- Guardian.Plug.current_token(conn) |> Guardian.resource_from_token(),
          clients = Clients.get_user_clients(user)
     do

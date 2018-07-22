@@ -31,7 +31,7 @@ interface State {
 }
 
 class Timer extends React.Component<Props, State> {
-    public displayUpdateInterval: number;
+    public displayUpdateInterval: any;
 
     constructor(props: Props) {
         super(props);
