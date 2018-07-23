@@ -11,8 +11,11 @@ defmodule TimerWeb.ClientControllerTest do
 
   describe "index" do
     test "should render a list of clients belonging to the authenticated user", %{conn: conn} do
-      authenticated_user = Guardian.Plug.current_token(conn) |> Guardian.resource_from_token()
-      client = insert(:client, user: authenticated_user) # client that belongs to the authenticated user
+      IO.puts inspect(conn, pretty: true)
+
+      results = Guardian.Plug.current_token(conn)
+      IO.puts(inspect(results))
+      client = insert(:client, user: results) # client that belongs to the authenticated user
       conn = get(conn, client_path(conn, :index))
       response = json_response(conn, 200)["data"]
 
@@ -25,19 +28,19 @@ defmodule TimerWeb.ClientControllerTest do
       conn = post(conn, client_path(conn, :create, %{"client" => %{"name" => "Test client"}}))
       response = json_response(conn, 201)["data"]
 
-      assert response = %{
+      assert response == %{
         "id" => response["id"],
         "name" => "Test client"
       }
     end
 
     test "created client should belong to the authenticated user", %{conn: conn} do
-      authenticated_user = Guardian.Plug.current_token(conn) |> Guardian.resource_from_token()
+      {:ok, authenticated_user, _claims} = Guardian.Plug.current_token(conn) |> Guardian.resource_from_token()
       conn = post(conn, client_path(conn, :create, %{"client" => %{"name" => "Test client"}}))
       %{"id" => client_id} = json_response(conn, 201)["data"]
       %{user: client_user} = Repo.get!(Client, client_id) |> Repo.preload(:user)
 
-      assert authenticated_user = client_user
+      assert authenticated_user == client_user
     end
   end
 end

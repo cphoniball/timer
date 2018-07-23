@@ -15,6 +15,6 @@ config :timer, Timer.Repo,
   username: "postgres",
   password: "root",
   database: "timer-test",
-  hostname: "db-test",
-  port: 5432,
+  hostname: "localhost",
+  port: 7432,
   pool: Ecto.Adapters.SQL.Sandbox

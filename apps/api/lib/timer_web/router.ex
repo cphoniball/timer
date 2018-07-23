@@ -7,6 +7,7 @@ defmodule TimerWeb.Router do
 
   pipeline :require_authentication do
     plug TimerWeb.Auth.Pipeline
+    plug TimerWeb.Plugs.CurrentUser
   end
 
   scope "/", TimerWeb do
