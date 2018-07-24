@@ -21,4 +21,12 @@ defmodule TimerWeb.ClientController do
       conn |> put_status(:created) |> render("show.json", %{client: client})
     end
   end
+
+  def delete(conn, %{"client_id" => client_id}) do
+    with {:ok, client} <- Clients.get_client(client_id),
+         {:ok, _deleted_client} <- Clients.delete_client(client)
+    do
+      conn |> render("show.json", %{client: client})
+    end
+  end
 end

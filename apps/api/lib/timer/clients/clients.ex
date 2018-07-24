@@ -11,9 +11,22 @@ defmodule Timer.Clients do
     |> Map.get(:clients)
   end
 
+  def get_client(id) do
+    case Repo.get(Client, id) do
+      %Client{} = client ->
+        {:ok, client}
+      nil ->
+        {:error, :not_found}
+    end
+  end
+
   def create_client(attrs \\ %{}) do
     %Client{}
     |> Client.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def delete_client(%Client{} = client) do
+    Repo.delete(client)
   end
 end
