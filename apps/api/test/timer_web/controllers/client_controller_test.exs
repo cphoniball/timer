@@ -3,23 +3,18 @@ defmodule TimerWeb.ClientControllerTest do
   alias Timer.Repo
   alias Timer.Clients.Client
 
-  alias TimerWeb.Guardian
-
   setup _context do
     %{conn: build_authenticated_conn()}
   end
 
   describe "index" do
     test "should render a list of clients belonging to the authenticated user", %{conn: conn} do
-      IO.puts inspect(conn, pretty: true)
-
-      results = Guardian.Plug.current_token(conn)
-      IO.puts(inspect(results))
-      client = insert(:client, user: results) # client that belongs to the authenticated user
-      conn = get(conn, client_path(conn, :index))
-      response = json_response(conn, 200)["data"]
-
-      assert Enum.member?(response, client)
+      with client <- insert(:client, user: conn.assigns[:current_user]),
+           conn <- get(conn, client_path(conn, :index)),
+           %{"data" => response} <- json_response(conn, 200)
+      do
+        assert Enum.find(response, fn(response_client) -> response_client["name"] == client.name end)
+      end
     end
   end
 
@@ -34,13 +29,13 @@ defmodule TimerWeb.ClientControllerTest do
       }
     end
 
-    test "created client should belong to the authenticated user", %{conn: conn} do
-      {:ok, authenticated_user, _claims} = Guardian.Plug.current_token(conn) |> Guardian.resource_from_token()
-      conn = post(conn, client_path(conn, :create, %{"client" => %{"name" => "Test client"}}))
-      %{"id" => client_id} = json_response(conn, 201)["data"]
-      %{user: client_user} = Repo.get!(Client, client_id) |> Repo.preload(:user)
-
-      assert authenticated_user == client_user
+    test "should create a client that belongs to the authenticated user", %{conn: conn} do
+      with conn = post(conn, client_path(conn, :create, %{"client" => %{"name" => "Test client"}})),
+           %{"id" => client_id} = json_response(conn, 201)["data"],
+           %{user: client_user} = Repo.get!(Client, client_id) |> Repo.preload(:user)
+      do
+        assert conn.assigns[:current_user] == client_user
+      end
     end
   end
 end

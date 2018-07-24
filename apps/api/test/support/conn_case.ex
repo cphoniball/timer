@@ -30,7 +30,9 @@ defmodule TimerWeb.ConnCase do
              user <- insert(:user, %{password: Comeonin.Bcrypt.hashpwsalt(password)}),
              {:ok, token, _claims} <- TimerWeb.Guardian.encode_and_sign(user)
         do
-          build_conn() |> put_req_header("authorization", "Bearer " <> token)
+          build_conn()
+          |> assign(:current_user, user)
+          |> put_req_header("authorization", "Bearer " <> token)
         end
       end
     end

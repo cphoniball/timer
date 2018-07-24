@@ -7,7 +7,6 @@ defmodule TimerWeb.ClientController do
   action_fallback TimerWeb.FallbackController
 
   def index(conn, _params) do
-    IO.puts inspect(conn.assigns)
     with clients <- Clients.get_user_clients(conn.assigns[:current_user])
     do
       conn |> put_status(:ok) |> render("index.json", %{clients: clients})
