@@ -13,10 +13,12 @@ defmodule TimerWeb.ClientControllerTest do
   describe "index" do
     test "should render a list of clients belonging to the authenticated user", %{conn: conn} do
       with client <- insert(:client, user: conn.assigns[:current_user]),
+           other_user_client <- insert(:client),
            conn <- get(conn, client_path(conn, :index)),
            %{"data" => response} <- json_response(conn, 200)
       do
-        assert Enum.find(response, fn(response_client) -> response_client["name"] == client.name end)
+        assert Enum.find(response, fn(response_client) -> response_client["id"] == client.id end)
+        refute Enum.find(response, fn(response_client) -> response_client["id"] == other_user_client.id end)
       end
     end
   end
