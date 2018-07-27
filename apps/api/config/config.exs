@@ -28,6 +28,9 @@ config :timer, TimerWeb.Guardian,
       issuer: "Timer",
       secret_key: "FEHXgsKtqU16vRxlQ971XUPIbYHyOPM3IR+wXRPtkWdIFbyjQdYlVkkRMFoMBQpv" # Override in different environments
 
+  # Configure canary
+  config :canary, repo: Timer.Repo
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

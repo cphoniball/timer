@@ -20,6 +20,7 @@ defmodule TimerWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: TimerWeb
+      import Canary.Plugs
       import Plug.Conn
       import TimerWeb.Router.Helpers
       import TimerWeb.Gettext

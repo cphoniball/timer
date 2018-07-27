@@ -2,9 +2,12 @@ defmodule TimerWeb.ClientController do
   use TimerWeb, :controller
 
   alias Timer.Clients
+  alias Timer.Clients.Client
   alias TimerWeb.Guardian
 
   action_fallback TimerWeb.FallbackController
+
+  plug :load_and_authorize_resource, model: Client
 
   def index(conn, _params) do
     with clients <- Clients.get_user_clients(conn.assigns[:current_user])
@@ -22,11 +25,12 @@ defmodule TimerWeb.ClientController do
     end
   end
 
-  def delete(conn, %{"client_id" => client_id}) do
-    with {:ok, client} <- Clients.get_client(client_id),
-         {:ok, _deleted_client} <- Clients.delete_client(client)
-    do
-      conn |> render("show.json", %{client: client})
-    end
+  def delete(conn, _params) do
+    conn |> render("show.json", %{client: conn.assigns.client})
+
+    # with {:ok, _deleted_client} <- Clients.delete_client(conn.assigns.client)
+    # do
+    #   conn |> render("show.json", %{client: conn.assigns.client})
+    # end
   end
 end

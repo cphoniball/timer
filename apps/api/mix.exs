@@ -40,6 +40,7 @@ defmodule Timer.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:canary, "~> 1.1.1"},
       {:corsica, "~> 1.0"},
       {:distillery, "~> 1.5", runtime: false},
       {:phoenix, "~> 1.3.0-rc"},
