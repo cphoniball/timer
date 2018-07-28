@@ -31,8 +31,8 @@ config :timer, TimerWeb.Guardian,
   # Configure canary
   config :canary,
         repo: Timer.Repo,
-        unauthorized_handler: {TimerWeb.FallbackController, :unauthorized},
-        not_found_handler: {TimerWeb.FallbackController, :not_found}
+        unauthorized_handler: {TimerWeb.Plugs.Helpers.Canary, :unauthorized},
+        not_found_handler: {TimerWeb.Plugs.Helpers.Canary, :not_found}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

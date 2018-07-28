@@ -2,7 +2,7 @@ defmodule TimerWeb.ClientControllerTest do
   use TimerWeb.ConnCase
   alias Timer.Repo
   alias Timer.Clients.Client
-  alias TimerWeb.ClientView
+  alias TimerWeb.{ClientView, ErrorView}
 
   import Timer.Helpers.MapHelpers, only: [atomize_keys: 1]
 
@@ -54,8 +54,12 @@ defmodule TimerWeb.ClientControllerTest do
       end
     end
 
-    test "should return an unauthorized exception and not delete the user if the user does not own the client" do
-      # TODO: Implement this test
+    test "should return an unauthorized exception and not delete the user if the user does not own the client", %{conn: conn} do
+      with client <- insert(:client),
+           conn <- delete(conn, client_path(conn, :delete, client.id))
+      do
+        assert json_response(conn, 401) |> atomize_keys == ErrorView.render("401.json")
+      end
     end
   end
 end
