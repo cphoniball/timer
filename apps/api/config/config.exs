@@ -29,7 +29,10 @@ config :timer, TimerWeb.Guardian,
       secret_key: "FEHXgsKtqU16vRxlQ971XUPIbYHyOPM3IR+wXRPtkWdIFbyjQdYlVkkRMFoMBQpv" # Override in different environments
 
   # Configure canary
-  config :canary, repo: Timer.Repo
+  config :canary,
+        repo: Timer.Repo,
+        unauthorized_handler: {TimerWeb.FallbackController, :unauthorized},
+        not_found_handler: {TimerWeb.FallbackController, :not_found}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

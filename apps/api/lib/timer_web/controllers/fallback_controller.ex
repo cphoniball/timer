@@ -1,6 +1,10 @@
 defmodule TimerWeb.FallbackController do
   use Phoenix.Controller
 
+  # Convenience methods for calling the other `call` methods in this module
+  def not_found(conn), do: call(conn, {:error, :not_found})
+  def unauthorized(conn), do: call(conn, {:error, :unauthorized})
+
   @doc """
   Fallback method for results of failed changeset operations.
   """
