@@ -27,9 +27,13 @@ defmodule Timer.Clients do
   end
 
   def update_client(%Client{} = client, attrs) do
-    client
-    |> Client.changeset(attrs)
-    |> Repo.update()
+    try do
+      client
+      |> Client.changeset(attrs)
+      |> Repo.update()
+    rescue
+      e in RuntimeError -> {:error, e}
+    end
   end
 
   def delete_client(%Client{} = client) do

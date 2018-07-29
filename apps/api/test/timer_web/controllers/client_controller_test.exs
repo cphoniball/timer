@@ -75,7 +75,6 @@ defmodule TimerWeb.ClientControllerTest do
       assert json_response(conn, 401) == unauthorized_response()
     end
 
-    @tag :skip
     test "should return an unauthorized response if the user tries to change the owned user", %{conn: conn} do
       client = insert(:client, %{user: conn.assigns.current_user})
       new_user = insert(:user)
