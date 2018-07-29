@@ -58,7 +58,7 @@ defmodule TimerWeb.ClientControllerTest do
       with client <- insert(:client),
            conn <- delete(conn, client_path(conn, :delete, client.id))
       do
-        assert json_response(conn, 401) |> atomize_keys == ErrorView.render("401.json")
+        assert json_response(conn, 401) == unauthorized_response()
       end
     end
   end

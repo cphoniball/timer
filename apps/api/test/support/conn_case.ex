@@ -35,6 +35,10 @@ defmodule TimerWeb.ConnCase do
           |> put_req_header("authorization", "Bearer " <> token)
         end
       end
+
+      def unauthorized_response() do
+        build_conn() |> TimerWeb.FallbackController.unauthorized() |> json_response(401)
+      end
     end
   end
 
