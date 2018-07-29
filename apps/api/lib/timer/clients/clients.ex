@@ -26,6 +26,12 @@ defmodule Timer.Clients do
     |> Repo.insert()
   end
 
+  def update_client(%Client{} = client, attrs) do
+    client
+    |> Client.changeset(attrs)
+    |> Repo.update()
+  end
+
   def delete_client(%Client{} = client) do
     Repo.delete(client)
   end

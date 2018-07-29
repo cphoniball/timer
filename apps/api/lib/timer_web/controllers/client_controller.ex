@@ -6,7 +6,7 @@ defmodule TimerWeb.ClientController do
 
   action_fallback TimerWeb.FallbackController
 
-  plug :load_and_authorize_resource, model: Client
+  plug :load_and_authorize_resource, model: Client, preload: :user
 
   def index(conn, _params) do
     with clients <- Clients.get_user_clients(conn.assigns[:current_user])
@@ -25,6 +25,13 @@ defmodule TimerWeb.ClientController do
          {:ok, client} <- Clients.create_client(client)
     do
       conn |> put_status(:created) |> render("show.json", %{client: client})
+    end
+  end
+
+  def update(conn, %{"client" => attrs}) do
+    with {:ok, client} <- Clients.update_client(conn.assigns.client, attrs)
+    do
+      conn |> put_status(:accepted) |> render("show.json", %{client: client})
     end
   end
 

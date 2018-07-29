@@ -26,6 +26,7 @@ defmodule TimerWeb.Router do
     get "/clients", ClientController, :index
     get "/clients/:id", ClientController, :get
     post "/clients", ClientController, :create
+    put "/clients/:id", ClientController, :update
     delete "/clients/:id", ClientController, :delete
 
     get "/time_entries/active", TimeEntryController, :active

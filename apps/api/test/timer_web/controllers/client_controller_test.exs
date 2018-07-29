@@ -60,9 +60,34 @@ defmodule TimerWeb.ClientControllerTest do
     end
   end
 
+  describe "update" do
+    test "should update the client if the user owns them", %{conn: conn} do
+      client = insert(:client, %{user: conn.assigns.current_user})
+      conn = put(conn, client_path(conn, :update, client.id), %{"client" => %{"name" => "New name"}})
+
+      assert json_response(conn, 202)["data"]["name"] == "New name"
+    end
+
+    test "should return an unauthorized response if the user does not own the client", %{conn: conn} do
+      client = insert(:client)
+      conn = put(conn, client_path(conn, :update, client.id), %{"client" => %{"name" => "New name"}})
+
+      assert json_response(conn, 401) == unauthorized_response()
+    end
+
+    @tag :skip
+    test "should return an unauthorized response if the user tries to change the owned user", %{conn: conn} do
+      client = insert(:client, %{user: conn.assigns.current_user})
+      new_user = insert(:user)
+      conn = put(conn, client_path(conn, :update, client.id), %{"client" => %{"user" => %{"id" => new_user.id}}})
+
+      assert json_response(conn, 401) == unauthorized_response()
+    end
+  end
+
   describe "delete" do
     test "should delete the client if the client belongs to the current user", %{conn: conn} do
-      with client <- insert(:client, user: conn.assigns[:current_user]),
+      with client <- insert(:client, user: conn.assigns.current_user),
            conn <- delete(conn, client_path(conn, :delete, client.id)),
            %{"data" => response} <- json_response(conn, 200)
       do

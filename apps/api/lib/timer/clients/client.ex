@@ -12,9 +12,6 @@ defmodule Timer.Clients.Client do
     belongs_to :user, User
   end
 
-  @doc """
-  Changeset for when a user is passed via the user object
-  """
   def changeset(%Client{} = client, %{"user" => user} = attrs) do
     client
     |> cast(attrs, [:name])
@@ -22,9 +19,6 @@ defmodule Timer.Clients.Client do
     |> put_assoc(:user, user)
   end
 
-  @doc """
-  Changeset for when a user is passed via user_id
-  """
   def changeset(%Client{} = client, attrs) do
     client
     |> cast(attrs, [:name])
