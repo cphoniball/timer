@@ -5,27 +5,18 @@ defmodule TimerWeb.FallbackController do
   def not_found(conn), do: call(conn, {:error, :not_found})
   def unauthorized(conn), do: call(conn, {:error, :unauthorized})
 
-  @doc """
-  Fallback method for results of failed changeset operations.
-  """
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
     |> render(TimerWeb.ChangesetView, "error.json", changeset: changeset)
   end
 
-  @doc """
-  Falback method for endpoints where the user is not authorized
-  """
   def call(conn, {:error, :unauthorized}) do
     conn
     |> put_status(:unauthorized)
     |> render(TimerWeb.ErrorView, "401.json")
   end
 
-  @doc """
-  Fallback method for resource endpoints when that resource is not found.
-  """
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)

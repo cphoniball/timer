@@ -24,6 +24,7 @@ defmodule TimerWeb.Router do
     pipe_through [:timer, :require_authentication]
 
     get "/clients", ClientController, :index
+    get "/clients/:id", ClientController, :get
     post "/clients", ClientController, :create
     delete "/clients/:id", ClientController, :delete
 

@@ -3,7 +3,6 @@ defmodule TimerWeb.ClientController do
 
   alias Timer.Clients
   alias Timer.Clients.Client
-  alias TimerWeb.Guardian
 
   action_fallback TimerWeb.FallbackController
 
@@ -16,6 +15,10 @@ defmodule TimerWeb.ClientController do
     end
   end
 
+  def get(conn, _params) do
+    conn |> render("show.json", %{client: conn.assigns.client})
+  end
+
   def create(conn, %{"client" => params}) do
     # Assign the currently authenticated user as the creator of this client
     with client <- Map.put(params, "user", conn.assigns[:current_user]),
@@ -26,11 +29,9 @@ defmodule TimerWeb.ClientController do
   end
 
   def delete(conn, _params) do
-    conn |> render("show.json", %{client: conn.assigns.client})
-
-    # with {:ok, _deleted_client} <- Clients.delete_client(conn.assigns.client)
-    # do
-    #   conn |> render("show.json", %{client: conn.assigns.client})
-    # end
+    with {:ok, _deleted_client} <- Clients.delete_client(conn.assigns.client)
+    do
+      conn |> render("show.json", %{client: conn.assigns.client})
+    end
   end
 end

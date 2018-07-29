@@ -2,7 +2,7 @@ defmodule TimerWeb.ClientControllerTest do
   use TimerWeb.ConnCase
   alias Timer.Repo
   alias Timer.Clients.Client
-  alias TimerWeb.{ClientView, ErrorView}
+  alias TimerWeb.ClientView
 
   import Timer.Helpers.MapHelpers, only: [atomize_keys: 1]
 
@@ -20,6 +20,22 @@ defmodule TimerWeb.ClientControllerTest do
         assert Enum.find(response, fn(response_client) -> response_client["id"] == client.id end)
         refute Enum.find(response, fn(response_client) -> response_client["id"] == other_user_client.id end)
       end
+    end
+  end
+
+  describe "get" do
+    test "should render the client specified in request id if the user owns the client", %{conn: conn} do
+      client = insert(:client, user: conn.assigns[:current_user])
+      conn = get(conn, client_path(conn, :get, client.id))
+
+      assert json_response(conn, 200)["data"] |> atomize_keys() == ClientView.render("client.json", %{client: client})
+    end
+
+    test "should return an unauthorized response if the user does not own the client", %{conn: conn} do
+      client = insert(:client)
+      conn = get(conn, client_path(conn, :get, client.id))
+
+      assert json_response(conn, 401) == unauthorized_response()
     end
   end
 
