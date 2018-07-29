@@ -12,9 +12,7 @@ defmodule TimerWeb.TimeEntryController do
   end
 
   def create(conn, %{"time_entry" => params}) do
-    # TODO: Figure out why I can't use Guardian.Plug.current_resource() here
-    with {:ok, user, _claims} <- Guardian.Plug.current_token(conn) |> Guardian.resource_from_token(),
-         time_entry <- Map.put(params, "user", user),
+    with time_entry <- Map.put(params, "user", conn.assigns.current_user),
          {:ok, time_entry} <- Timer.create_time_entry(time_entry)
     do
       # Broadcast start event to all clients so that separate clients sync statea
