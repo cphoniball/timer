@@ -17,6 +17,11 @@ const theme = {
         base: {
             size: '1.6rem'
         }
+    },
+    layout: {
+        sidebar: {
+            width: '200px'
+        }
     }
 };
 

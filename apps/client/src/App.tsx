@@ -9,6 +9,7 @@ import history from 'global/routing/history.provider';
 import Layout from 'application/Layout';
 import Login from 'auth/Login.container';
 import AuthRoute from 'global/routing/AuthRoute';
+import Sidebar from 'navigation/Sidebar';
 import Timer from 'timer/Timer.container';
 
 import 'styles';
@@ -17,6 +18,7 @@ render(
     <Router history={history}>
         <Layout>
             <Route path="/" exact component={Login} />
+            <AuthRoute path="/" component={Sidebar} />
             <AuthRoute path="/timer" exact component={Timer} />
         </Layout>
     </Router>,

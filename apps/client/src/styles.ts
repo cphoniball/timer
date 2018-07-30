@@ -10,6 +10,7 @@ export default injectGlobal`
     html {
         box-sizing: border-box;
         font-size: 10px;
+        font-family: sans-serif;
     }
 
     input, textarea, select, button {
