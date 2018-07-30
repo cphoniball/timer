@@ -28,10 +28,6 @@ defmodule TimerWeb.ClientController do
     end
   end
 
-  # def update(%{assigns: %{current_user: %{id: cur_user_id}}}, %{"client" => %{"user_id" => user_id}}) when cur_user_id !== user_id do
-  #   {:error, :unauthorized}
-  # end
-
   def update(conn, %{"client" => attrs}) do
     with {:ok, client} <- Clients.update_client(conn.assigns.client, attrs)
     do
