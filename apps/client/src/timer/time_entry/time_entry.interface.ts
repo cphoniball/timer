@@ -1,4 +1,4 @@
-import User from 'user/user.interface';
+import User from 'users/user.interface';
 
 export default interface TimeEntry {
     id: number;

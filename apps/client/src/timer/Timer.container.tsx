@@ -5,7 +5,7 @@ import * as React from 'react';
 import Timer from 'timer/Timer';
 
 import TimeEntry from 'timer/time_entry/time_entry.interface';
-import User from 'user/user.interface';
+import User from 'users/user.interface';
 
 import timeEntryApi from 'timer/timer.api';
 

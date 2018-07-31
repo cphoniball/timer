@@ -63,7 +63,8 @@ services:
       - "6432:5432"
     networks:
       - application
-    # TODO: Set up a volume for this to persist DB across downs/ups
+    volumes:
+      - /var/lib/postgresql/data
 
   db-test:
     image: postgres:9
