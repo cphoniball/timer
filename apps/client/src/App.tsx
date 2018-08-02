@@ -8,7 +8,7 @@ import history from 'global/routing/history.provider';
 
 import Layout from 'application/Layout';
 import Login from 'auth/Login.container';
-import Clients from 'clients/Clients';
+import Clients from 'clients/Clients.container';
 import AuthRoute from 'global/routing/AuthRoute';
 import Sidebar from 'navigation/Sidebar';
 import Timer from 'timer/Timer.container';
