@@ -1,26 +1,29 @@
 import * as React from 'react';
 
+import CreateClient from 'clients/CreateClient';
+
 import Client from 'clients/client.interface';
 
 interface Props {
-    clients: [Client];
+    clients: Client[];
     isFetching: boolean;
+    onCreateClient(client: Client): void;
 }
 
-const Clients: React.StatelessComponent<Props> = ({ clients, isFetching }) => {
-    if (!clients || isFetching) return <span>'Loading client information...'</span>;
-
-    if (!clients.length) return <span>You haven't created any clients yet.</span>;
+const Clients: React.StatelessComponent<Props> = ({ clients, isFetching, onCreateClient }) => {
+    if (!clients) return null;
 
     return (
         <div>
-            <ul>
+            <CreateClient onSubmit={onCreateClient} />
+            {!clients.length && <span>You haven't created any clients yet.</span>}
+            {!!clients.length && <ul>
                 {clients.map(client => {
                     return (
                         <li className="client" key={`client-${client.id}`}>{client.name}</li>
                     );
                 })}
-            </ul>
+            </ul>}
         </div>
     );
 };

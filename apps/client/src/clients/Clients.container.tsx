@@ -4,12 +4,13 @@ import Client from 'clients/client.interface';
 import Clients from 'clients/Clients';
 
 import clientApi from 'clients/client.api';
+import { appendFileSync } from 'fs';
 
 export interface Props {}
 
 export interface State {
     isFetching: boolean;
-    clients: [Client];
+    clients: Client[];
 }
 
 export default class ClientsContainer extends React.Component<Props, State> {
@@ -31,6 +32,27 @@ export default class ClientsContainer extends React.Component<Props, State> {
     }
 
     public render() {
-        return <Clients isFetching={this.state.isFetching} clients={this.state.clients} />;
+        return (
+            <Clients
+                isFetching={this.state.isFetching}
+                clients={this.state.clients}
+                onCreateClient={this.createClient}
+            />
+        );
+    }
+
+    private createClient = async (client: Client) => {
+        this.setState({ isFetching: true });
+
+        try {
+            const createdClient = await clientApi.create(client);
+
+            this.setState({ clients: [...this.state.clients, createdClient], isFetching: false });
+        } catch (error) {
+            console.log('Recieved error when creating client!');
+            console.log(error);
+        }
+
+        this.setState({ isFetching: false });
     }
 }
