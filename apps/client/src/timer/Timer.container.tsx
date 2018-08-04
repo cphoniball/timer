@@ -2,12 +2,12 @@ import * as moment from 'moment';
 import * as Phoenix from 'phoenix';
 import * as React from 'react';
 
-import Timer from 'timer/Timer';
+import Timer from './Timer';
 
-import TimeEntry from 'timer/time_entry/time_entry.interface';
+import TimeEntry from './time_entry/time_entry.interface';
 import User from 'users/user.interface';
 
-import timeEntryApi from 'timer/timer.api';
+import timeEntryApi from './timer.api';
 
 interface Props {}
 

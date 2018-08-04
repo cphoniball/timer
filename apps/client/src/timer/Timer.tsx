@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import * as moment from 'moment';
 
 import Button from 'global/form/Button';
-import Details from 'timer/Details';
-import TimeEntry from 'timer/time_entry/time_entry.interface';
+import Details from './Details';
+import TimeEntry from './time_entry/time_entry.interface';
 
 import api from 'global/api/api.provider';
 
-import { formatSeconds } from 'timer/timer.utilities';
+import { formatSeconds } from './timer.utilities';
 
 const TimerPanel = styled.div`
     background-color: white;

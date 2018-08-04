@@ -4,8 +4,8 @@ import styledComponentsTS from 'styled-components-ts';
 
 import Input, { InputProps } from 'global/form/Input';
 
-import ElapsedTime, { Props as ElapsedTimeProps } from 'timer/ElapsedTime';
-import TimeEntry from 'timer/time_entry/time_entry.interface';
+import ElapsedTime, { Props as ElapsedTimeProps } from './ElapsedTime';
+import TimeEntry from './time_entry/time_entry.interface';
 
 const DetailsWrap = styled.div`
     flex: 1;

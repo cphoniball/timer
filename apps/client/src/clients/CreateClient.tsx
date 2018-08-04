@@ -4,13 +4,14 @@ import Button from 'global/form/Button';
 import Form from 'global/form/Form';
 import Input from 'global/form/Input';
 
-import Client from 'clients/client.interface';
+import Client from './client.interface';
 
-interface Props {
+export interface Props {
+    className?: string;
     onSubmit(client: Client): void;
 }
 
-interface State {
+export interface State {
     client: Client;
 }
 
@@ -29,7 +30,7 @@ export default class CreateClient extends React.Component<Props, State> {
 
     public render() {
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmit} className={this.props.className}>
                 <Input onChange={this.handleNameChange} value={this.state.client.name} placeholder="Client name" />
                 <Button type="submit" disabled={!this.state.client.name.length}>Create Client</Button>
             </Form>
@@ -45,5 +46,4 @@ export default class CreateClient extends React.Component<Props, State> {
         this.props.onSubmit(this.state.client);
         this.setState(initialState);
     }
-};
-
+}

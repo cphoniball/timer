@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import Client from 'clients/client.interface';
-import Clients from 'clients/Clients';
+import Client from './client.interface';
+import Clients from './Clients';
 
-import clientApi from 'clients/client.api';
+import clientApi from './client.api';
 import { appendFileSync } from 'fs';
 
 export interface Props {}

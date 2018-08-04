@@ -11,6 +11,7 @@
         }],
         "ter-arrow-parens": false,
         "no-console": false,
+        "no-duplicate-imports": false,
         "trailing-comma": [true, "never"],
         "max-line-length": [true, 240],
         "jsx-no-multiline-js": false,

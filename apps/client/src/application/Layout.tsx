@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Theme from 'application/Theme';
+import Theme from './Theme';
 
 const ApplicationWrapper = styled.div`
     background-color: ${props => props.theme.color.background};

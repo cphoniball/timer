@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import * as React from 'react';
 
-import { formatSeconds } from 'timer/timer.utilities';
+import { formatSeconds } from './timer.utilities';
 
 export interface Props {
     className?: string;

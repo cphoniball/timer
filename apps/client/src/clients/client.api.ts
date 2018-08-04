@@ -1,6 +1,6 @@
 import api from 'global/api/api.provider';
 
-import Client from 'clients/client.interface';
+import Client from './client.interface';
 
 export default {
     create: (client: Client): Promise<Client> => api.post('/clients', { client }),

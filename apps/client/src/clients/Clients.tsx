@@ -1,8 +1,9 @@
 import * as React from 'react';
+import styled from 'styles/components';
 
-import CreateClient from 'clients/CreateClient';
+import CreateClient, { Props as CreateClientProps } from './CreateClient';
 
-import Client from 'clients/client.interface';
+import Client from './client.interface';
 
 interface Props {
     clients: Client[];
@@ -10,12 +11,16 @@ interface Props {
     onCreateClient(client: Client): void;
 }
 
+const StyledCreateClient = styled<CreateClientProps>(CreateClient)`
+    float: right;
+`;
+
 const Clients: React.StatelessComponent<Props> = ({ clients, isFetching, onCreateClient }) => {
     if (!clients) return null;
 
     return (
         <div>
-            <CreateClient onSubmit={onCreateClient} />
+            <StyledCreateClient onSubmit={onCreateClient} />
             {!clients.length && <span>You haven't created any clients yet.</span>}
             {!!clients.length && <ul>
                 {clients.map(client => {

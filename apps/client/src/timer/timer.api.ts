@@ -1,6 +1,6 @@
 import api from 'global/api/api.provider';
 
-import TimeEntry from 'timer/time_entry/time_entry.interface';
+import TimeEntry from './time_entry/time_entry.interface';
 
 export default {
     active: () => api.get('/time_entries/active'),

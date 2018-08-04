@@ -9,6 +9,7 @@
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "baseUrl": "./src/",
-        "noEmit": false
+        "noEmit": false,
+        "keyofStringsOnly": true
     }
 }

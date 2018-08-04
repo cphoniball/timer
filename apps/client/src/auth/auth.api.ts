@@ -1,6 +1,6 @@
 import api from 'global/api/api.provider';
 
-import { Credentials } from 'auth/credentials.interface';
+import { Credentials } from './credentials.interface';
 
 export default {
     me: () => api.get('/me'),

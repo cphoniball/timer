@@ -7,7 +7,7 @@ import Button, { ButtonProps } from 'global/form/Button';
 import Form from 'global/form/Form';
 import Input, { InputProps } from 'global/form/Input';
 
-import { Credentials } from 'auth/credentials.interface';
+import { Credentials } from './credentials.interface';
 
 interface Props extends Credentials {
     error: string;

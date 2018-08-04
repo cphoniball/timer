@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import Login from 'auth/Login';
+import Login from './Login';
 
-import authApi from 'auth/auth.api';
+import authApi from './auth.api';
 
-import { Credentials } from 'auth/credentials.interface';
+import { Credentials } from './credentials.interface';
 
 import history from 'global/routing/history.provider';
 

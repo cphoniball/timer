@@ -1,4 +1,4 @@
-import Http from 'global/http/http.service';
+import Http from '../http/http.service';
 
 const timerApi = new Http({
     host: 'http://api.timer.test',
