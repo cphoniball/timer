@@ -59,6 +59,12 @@
     "@types/node" "*"
     "@types/react" "*"
 
+"@types/react-fontawesome@^1.6.4":
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/@types/react-fontawesome/-/react-fontawesome-1.6.4.tgz#95884bd8df906b423a254e00d5050f7fe75b3e76"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-hot-loader@^3.0.3":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/@types/react-hot-loader/-/react-hot-loader-3.0.6.tgz#23b1875a327c32cbab705fbf660d8f207ede4d69"

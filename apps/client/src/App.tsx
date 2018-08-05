@@ -13,6 +13,8 @@ import AuthRoute from 'global/routing/AuthRoute';
 import Sidebar from 'navigation/Sidebar';
 import Timer from 'timer/Timer.container';
 
+import 'font-awesome/css/font-awesome.css';
+
 import 'styles';
 
 render(

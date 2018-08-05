@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styles/components';
 
+import * as FontAwesome from 'react-fontawesome';
+
 import CreateClient, { Props as CreateClientProps } from './CreateClient';
 
 import Client from './client.interface';
@@ -48,7 +50,7 @@ const Clients: React.StatelessComponent<Props> = ({ clients, isFetching, onCreat
             {!!clients.length && <ClientList>
                 {clients.map(client => {
                     return (
-                        <ClientListItem className="client" key={`client-${client.id}`}>{client.name}</ClientListItem>
+                        <ClientListItem className="client" key={`client-${client.id}`}>{client.name}<FontAwesome name="trash-alt" /></ClientListItem>
                     );
                 })}
             </ClientList>}
