@@ -40,9 +40,9 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :timer, Timer.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "root",
-  database: "timer",
-  hostname: "localhost",
-  port: 6432,
+  username: {:system, "DB_USER", "postgres"},
+  password: {:system, "DB_PASSWORD", "root"},
+  database: {:system, "DB_NAME", "timer"},
+  hostname: {:system, "DB_HOST", "localhost"},
+  port: {:system, "DB_PORT", 6432},
   pool_size: 10

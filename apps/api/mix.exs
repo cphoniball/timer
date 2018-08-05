@@ -22,6 +22,7 @@ defmodule Timer.Mixfile do
       mod: {Timer.Application, []},
       extra_applications: [
         :corsica,
+        :confex,
         :ex_machina,
         :faker,
         :logger,
@@ -42,6 +43,7 @@ defmodule Timer.Mixfile do
     [
       {:canary, "~> 1.1.1"},
       {:corsica, "~> 1.0"},
+      {:confex, "~> 3.3.1"},
       {:distillery, "~> 1.5", runtime: false},
       {:phoenix, "~> 1.3.0-rc"},
       {:phoenix_pubsub, "~> 1.0"},
