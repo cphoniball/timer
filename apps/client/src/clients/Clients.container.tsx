@@ -37,6 +37,7 @@ export default class ClientsContainer extends React.Component<Props, State> {
                 isFetching={this.state.isFetching}
                 clients={this.state.clients}
                 onCreateClient={this.createClient}
+                onDeleteClient={this.deleteClient}
             />
         );
     }
@@ -47,12 +48,27 @@ export default class ClientsContainer extends React.Component<Props, State> {
         try {
             const createdClient = await clientApi.create(client);
 
-            this.setState({ clients: [...this.state.clients, createdClient], isFetching: false });
+            this.setState({ clients: [...this.state.clients, createdClient] });
         } catch (error) {
-            console.log('Recieved error when creating client!');
+            console.log('Received error when creating client!');
             console.log(error);
         }
 
         this.setState({ isFetching: false });
     }
+
+    private deleteClient = async (id: number) => {
+        this.setState({ isFetching: true });
+
+        try {
+            await clientApi.delete(id);
+
+            this.setState({ clients: this.state.clients.filter(client => client.id !== id) });
+        } catch (error) {
+            console.log('Received error when deleting client!');
+            console.log(error);
+        }
+
+        this.setState({ isFetching: false });
+    };
 }

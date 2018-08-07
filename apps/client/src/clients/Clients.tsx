@@ -12,16 +12,13 @@ interface Props {
     clients: Client[];
     isFetching: boolean;
     onCreateClient(client: Client): void;
+    onDeleteClient(id: number): void;
 }
 
 const CreateClientContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
-`;
-
-const StyledCreateClient = styled<CreateClientProps>(CreateClient)`
-    float: right;
 `;
 
 const ClientList = styled.ul`
@@ -39,7 +36,7 @@ const ClientListItem = styled.li`
     box-shadow: 0px 1px 2px ${props => props.theme.color.main}88;
 `;
 
-const Clients: React.StatelessComponent<Props> = ({ clients, isFetching, onCreateClient }) => {
+const Clients: React.StatelessComponent<Props> = ({ clients, isFetching, onCreateClient, onDeleteClient }) => {
     if (!clients) return null;
 
     return (
@@ -51,7 +48,10 @@ const Clients: React.StatelessComponent<Props> = ({ clients, isFetching, onCreat
             {!!clients.length && <ClientList>
                 {clients.map(client => {
                     return (
-                        <ClientListItem className="client" key={`client-${client.id}`}>{client.name}<FontAwesomeIcon className="float-right" icon="trash-alt" /></ClientListItem>
+                        <ClientListItem className="client" key={`client-${client.id}`}>
+                            {client.name}
+                            <span onClick={() => onDeleteClient(client.id)}><FontAwesomeIcon className="float-right" icon="trash-alt" /></span>
+                        </ClientListItem>
                     );
                 })}
             </ClientList>}
