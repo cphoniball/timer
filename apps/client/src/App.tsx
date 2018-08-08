@@ -26,7 +26,7 @@ render(
             <Route path="/" exact component={Login} />
             <AuthRoute path="/" component={Sidebar} />
             <AuthRoute path="/timer" exact component={Timer} />
-            <AuthRoute path="/clients" exact component={Clients} />
+            <AuthRoute path="/clients" component={Clients} />
         </Layout>
     </Router>,
     document.getElementById('app')

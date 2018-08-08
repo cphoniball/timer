@@ -1,12 +1,15 @@
 import * as React from 'react';
 
+import { match as Match } from 'react-router';
+
 import Client from './client.interface';
 import Clients from './Clients';
 
 import clientApi from './client.api';
-import { appendFileSync } from 'fs';
 
-export interface Props {}
+export interface Props {
+    match: Match<{}>;
+}
 
 export interface State {
     isFetching: boolean;
@@ -38,6 +41,7 @@ export default class ClientsContainer extends React.Component<Props, State> {
                 clients={this.state.clients}
                 onCreateClient={this.createClient}
                 onDeleteClient={this.deleteClient}
+                match={this.props.match}
             />
         );
     }
