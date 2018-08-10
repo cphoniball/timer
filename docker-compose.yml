@@ -1,4 +1,4 @@
-version: "3"
+version: "3.2"
 
 services:
 
@@ -68,7 +68,9 @@ services:
     networks:
       - application
     volumes:
-      - /var/lib/postgresql/data
+      - type: volume
+        source: postgres
+        target: /var/lib/postgresql/data
 
   db-test:
     image: postgres:9
@@ -83,3 +85,6 @@ services:
 
 networks:
   application:
+
+volumes:
+  postgres:
