@@ -10,7 +10,7 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import CreateClient, { Props as CreateClientProps } from './CreateClient';
-import EditClient from './EditClient';
+import EditClient, { Props as EditClientProps, State as EditClientState } from './EditClient';
 
 import Client from './client.interface';
 
@@ -44,6 +44,12 @@ const ClientListItem = styled.li`
     box-shadow: 0px 1px 2px ${props => props.theme.color.main}88;
 `;
 
+// const renderEditClient = (clientId: number, clients: Client[]): React.Component<EditClientProps, EditClientState> => {
+//     const client = clients.find(curr => curr.id === clientId);
+
+//     return <EditClient client={client} />;
+// }
+
 const Clients: React.StatelessComponent<Props> = ({ clients, isFetching, onCreateClient, onDeleteClient, match }) => {
     if (!clients) return null;
 
@@ -66,7 +72,7 @@ const Clients: React.StatelessComponent<Props> = ({ clients, isFetching, onCreat
                     );
                 })}
             </ClientList>}
-            <AuthRoute path={`${match.url}/:client_id`} component={EditClient} />
+            {/* <AuthRoute path={`${match.url}/:client_id`} render={props => renderEditClient(props.match.params.client_id, clients)} /> */}
         </div>
     );
 };

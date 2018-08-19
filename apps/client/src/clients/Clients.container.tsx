@@ -74,5 +74,5 @@ export default class ClientsContainer extends React.Component<Props, State> {
         }
 
         this.setState({ isFetching: false });
-    };
+    }
 }
