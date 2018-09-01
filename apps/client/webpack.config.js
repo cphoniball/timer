@@ -4,15 +4,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
+    mode: 'development',
+
     // Entry and output points
     entry: [
-        'react-hot-loader/patch', // activate hot module reloading for react
-
         'webpack-dev-server/client?http://client.timer.test',
-
-        'webpack/hot/only-dev-server',
-
-        path.join(__dirname, 'src/index.ts')
+        path.join(__dirname, 'src/index.js')
     ],
 
     output: {
@@ -24,16 +21,15 @@ module.exports = {
 
     // Plugins and loaders
     plugins: [
-        new HtmlWebpackPlugin({ template: 'src/index.ejs' }),
-        new webpack.HotModuleReplacementPlugin()
+        new HtmlWebpackPlugin({ template: 'src/index.ejs' })
     ],
 
     module: {
         rules: [
             {
-                test: /\.(tsx|ts)$/,
-                exclude: /node_modules/,
-                use: ['ts-loader']
+                test: /\.(js|jsx)$/,
+                exclude: /(node_modules|bower_components)/,
+                use: ['babel-loader']
             },
             {
                 test: /\.css$/,
@@ -71,14 +67,13 @@ module.exports = {
     },
 
     resolve: {
-        extensions: [".tsx", ".ts", ".js"],
+        extensions: [".js", ".jsx"],
         modules: [path.join(__dirname, "src"), "node_modules"]
     },
 
     // Dev configurations
     devtool: 'cheap-eval-source-map',
     devServer: {
-        hot: true,
         historyApiFallback: true,
         host: "0.0.0.0",
         port: 7000,
