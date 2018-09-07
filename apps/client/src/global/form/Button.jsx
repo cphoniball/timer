@@ -9,6 +9,7 @@ const StyledButton = styled.button`
     border: none;
 `;
 
+// TODO: Update this button to accept different colors
 const Button = ({ children, ...props }) => (
      <StyledButton {...props}>{children}</StyledButton>
 );
