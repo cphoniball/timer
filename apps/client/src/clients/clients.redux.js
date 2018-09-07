@@ -83,13 +83,13 @@ export const actions = {
         }
     },
     update: client => async dispatch => {
-        dispatch({ type: CREATE.start });
+        dispatch({ type: UPDATE.start });
 
         try {
             const updatedClient = await clientApi.update(client);
-            dispatch({ type: CREATE.success, data: updatedClient });
+            dispatch({ type: UPDATE.success, data: updatedClient });
         } catch (error) {
-            dispatch({ type: CREATE.failed, error });
+            dispatch({ type: UPDATE.failed, error });
             throw error;
         }
     },

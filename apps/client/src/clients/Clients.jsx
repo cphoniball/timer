@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import AuthRoute from 'global/routing/AuthRoute';
 import CreateClient from './CreateClient';
-import EditClient from './EditClient';
+import EditClient from './EditClient.container';
 
 const CreateClientContainer = styled.div`
     width: 100%;
@@ -54,7 +54,7 @@ const Clients = ({ clients, isFetching, onCreateClient, onDeleteClient, match })
                     );
                 })}
             </ClientList>}
-            <AuthRoute path={`${match.url}/:client_id`} render={props => <EditClient clients={clients} {...props} />} />
+            <AuthRoute path={`${match.url}/:client_id`} component={EditClient} />
         </div>
     );
 };
