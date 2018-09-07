@@ -1,67 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Clients from './Clients';
 
-import clientApi from './client.api';
+import { actions as clientActions } from 'clients/clients.redux';
 
-export default class ClientsContainer extends Component {
-    static propTypes = {
-        match: PropTypes.object
-    };
+const mapStateToProps = ({ clients }) => ({
+    clients: clients.data,
+    isFetching: clients.isFetching
+});
 
-    state = {
-        client: null,
-        isFetching: false
-    };
+const mapDispatchToProps = dispatch => ({
+    getAll: () => dispatch(clientActions.getAll()),
+    onCreateClient: client => dispatch(clientActions.create(client)),
+    onUpdateClient: client => dispatch(clientActions.update(client)),
+    onDeleteClient: id => dispatch(clientActions.delete(id)),
+});
 
-    async componentDidMount() {
-        this.setState({ isFetching: true });
+class ClientsContainer extends Component {
+    componentDidMount = () => this.props.getAll();
 
-        const clients = await clientApi.find();
-
-        this.setState({ clients, isFetching: false });
-    }
-
-    render() {
-        return (
-            <Clients
-                isFetching={this.state.isFetching}
-                clients={this.state.clients}
-                onCreateClient={this.createClient}
-                onDeleteClient={this.deleteClient}
-                match={this.props.match}
-            />
-        );
-    }
-
-    createClient = async client => {
-        this.setState({ isFetching: true });
-
-        try {
-            const createdClient = await clientApi.create(client);
-
-            this.setState({ clients: [...this.state.clients, createdClient] });
-        } catch (error) {
-            console.log('Received error when creating client!');
-            console.log(error);
-        }
-
-        this.setState({ isFetching: false });
-    }
-
-    deleteClient = async id => {
-        this.setState({ isFetching: true });
-
-        try {
-            await clientApi.delete(id);
-
-            this.setState({ clients: this.state.clients.filter(client => client.id !== id) });
-        } catch (error) {
-            console.log('Received error when deleting client!');
-            console.log(error);
-        }
-
-        this.setState({ isFetching: false });
-    }
+    render = () => <Clients {...this.props} />;
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClientsContainer);

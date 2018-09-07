@@ -3,6 +3,9 @@ import { hot } from 'react-hot-loader';
 
 import { Route, Router } from 'react-router-dom';
 
+import { Provider } from 'react-redux';
+import store from 'redux/store';
+
 import history from 'global/routing/history.provider';
 
 import Layout from 'application/Layout';
@@ -20,14 +23,16 @@ import createIconLibrary from 'styles/fontawesome';
 createIconLibrary();
 
 const App = () => (
-    <Router history={history}>
-        <Layout>
-            <Sidebar />
-            <Route path="/" exact component={Login} />
-            <AuthRoute path="/timer" exact component={Timer} />
-            <AuthRoute path="/clients" component={Clients} />
-        </Layout>
-    </Router>
+    <Provider store={store}>
+        <Router history={history}>
+            <Layout>
+                <Sidebar />
+                <Route path="/" exact component={Login} />
+                <AuthRoute path="/timer" exact component={Timer} />
+                <AuthRoute path="/clients" component={Clients} />
+            </Layout>
+        </Router>
+    </Provider>
 );
 
 // const App = () => <div>This is a test</div>;
