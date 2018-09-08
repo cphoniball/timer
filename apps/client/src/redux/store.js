@@ -4,9 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from './root_reducer';
 
-// TODO: Sagas should be held in a central location, probably
-import { saga } from 'clients/clients.redux';
-console.log(saga);
+import saga from 'redux/sagas';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

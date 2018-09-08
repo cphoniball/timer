@@ -41,45 +41,29 @@ export default function(state = initialState, action) {
         case UPDATE.success:
             return { ...state, isFetching: false, data: state.data.map(client => client.id === action.data.id ? action.data : client) };
         case DELETE.success:
-            return { ...state, isFetching: false, data: state.data.filter(client => client.id !== action.deleted_id) };
+            return { ...state, isFetching: false, data: state.data.filter(client => client.id !== action.data.id) };
         default:
             return state;
     }
 }
 
-export const sagas = {
-    getAll: function* () {
+const requestSaga = (actionSet, fn, getArgs) => {
+    return function* (action) {
         try {
-            const clients = yield call(clientApi.find);
-            yield put({ type: GET_ALL.success, data: clients });
+            const args = getArgs ? getArgs(action) : [];
+            const data = yield call(fn, ...args);
+            yield put({ type: actionSet.success, data });
         } catch (error) {
-            yield put({ type: GET_ALL.failed, error });
-        }
-    },
-    create: function* (action) {
-        try {
-            const createdClient = yield call(clientApi.create, action.client);
-            yield put({ type: CREATE.success, data: createdClient });
-        } catch (error) {
-            yield put({ type: CREATE.failed, error });
-        }
-    },
-    update: function* (action) {
-        try {
-            const updatedClient = yield call(clientApi.update, action.client);
-            yield put({ type: UPDATE.success, data: updatedClient });
-        } catch (error) {
-            yield put({ type: UPDATE.failed, error });
-        }
-    },
-    delete: function* (action) {
-        try {
-            yield call(clientApi.delete, action.id);
-            yield put({ type: DELETE.success, deleted_id: action.id });
-        } catch (error) {
-            yield put({ type: DELETE.failed, error });
+            yield put({ type: actionSet.failed, error });
         }
     }
+}
+
+export const sagas = {
+    getAll: requestSaga(GET_ALL, clientApi.find),
+    create: requestSaga(CREATE, clientApi.create, action => [action.client]),
+    update: requestSaga(UPDATE, clientApi.update, action => [action.client]),
+    delete: requestSaga(DELETE, clientApi.delete, action => [action.id])
 };
 
 export const actions = {
