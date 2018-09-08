@@ -1,3 +1,5 @@
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+
 import clientApi from './client.api';
 
 const requestConstants = constant => {
@@ -45,63 +47,51 @@ export default function(state = initialState, action) {
     }
 }
 
-// TODO: This is a WIP
-// const requestAction = (...args) => (constants, callback) => dispatch => {
-//     dispatch({ type: constants.send });
-
-//     try {
-//         const data = await callback(...args);
-//         dispatch({ type: constants.success, data });
-//         return data;
-//     } catch (error) {
-//         dispatch({ type: constants.failed, error });
-//         throw error;
-//     }
-// };
-
-export const actions = {
-    getAll: () => async dispatch => {
-        dispatch({ type: GET_ALL.start });
-
+export const sagas = {
+    getAll: function* () {
         try {
-            const data = await clientApi.find(GET_ALL, clientApi.find);
-            dispatch({ type: GET_ALL.success, data });
+            const clients = yield call(clientApi.find);
+            yield put({ type: GET_ALL.success, data: clients });
         } catch (error) {
-            dispatch({ type: GET_ALL.failed, error });
-            throw error;
+            yield put({ type: GET_ALL.failed, error });
         }
     },
-    create: client => async dispatch => {
-        dispatch({ type: CREATE.start });
-
+    create: function* (action) {
         try {
-            const createdClient = await clientApi.create(client);
-            dispatch({ type: CREATE.success, data: createdClient });
+            const createdClient = yield call(clientApi.create, action.client);
+            yield put({ type: CREATE.success, data: createdClient });
         } catch (error) {
-            dispatch({ type: CREATE.failed, error });
-            throw error;
+            yield put({ type: CREATE.failed, error });
         }
     },
-    update: client => async dispatch => {
-        dispatch({ type: UPDATE.start });
-
+    update: function* (action) {
         try {
-            const updatedClient = await clientApi.update(client);
-            dispatch({ type: UPDATE.success, data: updatedClient });
+            const updatedClient = yield call(clientApi.update, action.client);
+            yield put({ type: UPDATE.success, data: updatedClient });
         } catch (error) {
-            dispatch({ type: UPDATE.failed, error });
-            throw error;
+            yield put({ type: UPDATE.failed, error });
         }
     },
-    delete: id => async dispatch => {
-        dispatch({ type: DELETE.start });
-
+    delete: function* (action) {
         try {
-            await clientApi.delete(id);
-            dispatch({ type: DELETE.success, deleted_id: id });
+            yield call(clientApi.delete, action.id);
+            yield put({ type: DELETE.success, deleted_id: action.id });
         } catch (error) {
-            dispatch({ type: DELETE.failed, error });
-            throw error;
+            yield put({ type: DELETE.failed, error });
         }
     }
 };
+
+export const actions = {
+    getAll: () => ({ type: GET_ALL.start }),
+    create: client => ({ type: CREATE.start, client }),
+    update: client => ({ type: UPDATE.start, client }),
+    delete: id => ({ type: DELETE.start, id })
+};
+
+export function* saga() {
+    yield takeEvery(GET_ALL.start, sagas.getAll);
+    yield takeEvery(CREATE.start, sagas.create);
+    yield takeEvery(UPDATE.start, sagas.update);
+    yield takeEvery(DELETE.start, sagas.delete);
+}
