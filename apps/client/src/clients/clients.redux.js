@@ -1,4 +1,5 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { takeOnce } from 'redux/sagas/effects';
 
 import clientApi from './client.api';
 
@@ -74,8 +75,8 @@ export const actions = {
 };
 
 export function* saga() {
-    yield takeEvery(GET_ALL.start, sagas.getAll);
-    yield takeEvery(CREATE.start, sagas.create);
-    yield takeEvery(UPDATE.start, sagas.update);
-    yield takeEvery(DELETE.start, sagas.delete);
+    yield takeOnce(GET_ALL.start, sagas.getAll);
+    yield takeLatest(CREATE.start, sagas.create);
+    yield takeLatest(UPDATE.start, sagas.update);
+    yield takeLatest(DELETE.start, sagas.delete);
 }
