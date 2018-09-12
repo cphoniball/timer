@@ -2,7 +2,8 @@ import moment from 'moment';
 import * as Phoenix from 'phoenix';
 import React, { Component } from 'react';
 
-import Timer from './Timer';
+import Timer from 'timer/Timer';
+import FinishedTimeEntries from 'timer/FinishedTimeEntries';
 
 import timeEntryApi from './timer.api';
 
@@ -17,7 +18,8 @@ const initialTimeEntry = {
 export default class TimerContainer extends Component {
     state = {
         isRunning: false,
-        timeEntry: initialTimeEntry
+        activeTimeEntry: initialTimeEntry,
+        timeEntries: []
     };
 
     componentDidMount() {
@@ -39,6 +41,9 @@ export default class TimerContainer extends Component {
 
         // Check if we have any active entries on startup
         this.getActiveEntries();
+
+        // Load existing time entries into state
+        this.getTimeEntries();
     }
 
     start = async () => {
@@ -55,6 +60,12 @@ export default class TimerContainer extends Component {
 
         this.setState({ isRunning: false, timeEntry: initialTimeEntry });
     }
+
+    getTimeEntries = async () => {
+        const timeEntries = await timeEntryApi.getAll();
+
+        if (timeEntries.length) this.setState({ timeEntries });
+    };
 
     getActiveEntries = async () => {
         const entries = await timeEntryApi.active();
@@ -73,13 +84,18 @@ export default class TimerContainer extends Component {
 
     render() {
         return (
-            <Timer
-                isRunning={this.state.isRunning}
-                start={this.start}
-                stop={this.stop}
-                timeEntry={this.state.timeEntry}
-                onDescriptionChange={this.handleDescriptionChange}
-            />
+            <div>
+                <Timer
+                    isRunning={this.state.isRunning}
+                    start={this.start}
+                    stop={this.stop}
+                    timeEntry={this.state.activeTimeEntry}
+                    onDescriptionChange={this.handleDescriptionChange}
+                />
+                <FinishedTimeEntries
+                    timeEntries={this.state.timeEntries}
+                />
+            </div>
         );
     }
 }

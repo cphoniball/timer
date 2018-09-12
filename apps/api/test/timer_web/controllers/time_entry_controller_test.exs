@@ -15,6 +15,19 @@ defmodule TimerWeb.TimeEntryControllerTest do
     }
   end
 
+  describe "index" do
+    test "should return all time entries that belong to the authenticated user", %{conn: conn} do
+      with time_entry <- insert(:time_entry, user: conn.assigns[:current_user]),
+           other_time_entry <- insert(:time_entry),
+           conn <- get(conn, time_entry_path(conn, :index)),
+           %{"data" => response} <- json_response(conn, 200)
+      do
+        assert Enum.find(response, fn(response_entry) -> response_entry["id"] == time_entry.id end)
+        refute Enum.find(response, fn(response_entry) -> response_entry["id"] == other_time_entry.id end)
+      end
+    end
+  end
+
   describe "active" do
     test "should return a list of the active time entries", %{conn: conn} do
       with active <- insert(:time_entry),

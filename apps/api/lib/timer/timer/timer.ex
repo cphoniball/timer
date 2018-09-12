@@ -6,14 +6,18 @@ defmodule Timer.Timer do
 
   alias Timer.Repo
   alias Timer.Timer.TimeEntry
+  alias Timer.Accounts.User
 
-  def list_time_entries, do: Repo.all(TimeEntry)
+  def get_user_time_entries(%User{} = user) do
+    Repo.preload(user, :time_entries)
+    |> Map.get(:time_entries)
+  end
 
   @doc """
   Retrieves all active time entries, i.e. time entries that have a 'started_at' time but not an
   'ended_at' time.
   """
-  def active_time_entries() do
+  def get_active_time_entries() do
     Repo.all(from t in TimeEntry, where: not is_nil(t.started_at), where: is_nil(t.ended_at))
   end
 

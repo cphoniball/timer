@@ -1,15 +1,8 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 import { takeOnce } from 'redux/sagas/effects';
+import { requestConstants, requestSaga } from 'redux/helpers';
 
 import clientApi from './client.api';
-
-const requestConstants = constant => {
-    return {
-        start: `${constant}_START`,
-        success: `${constant}_SUCCESS`,
-        failed: `${constant}_FAILED`
-    };
-};
 
 const GET_ALL = requestConstants('timer/clients/GET_ALL');
 const CREATE = requestConstants('timer/clients/CREATE');
@@ -45,18 +38,6 @@ export default function(state = initialState, action) {
             return { ...state, isFetching: false, data: state.data.filter(client => client.id !== action.data.id) };
         default:
             return state;
-    }
-}
-
-const requestSaga = (actionSet, fn, getArgs) => {
-    return function* (action) {
-        try {
-            const args = getArgs ? getArgs(action) : [];
-            const data = yield call(fn, ...args);
-            yield put({ type: actionSet.success, data });
-        } catch (error) {
-            yield put({ type: actionSet.failed, error });
-        }
     }
 }
 
