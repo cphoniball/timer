@@ -1,11 +1,14 @@
 import moment from 'moment';
 import * as Phoenix from 'phoenix';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import Timer from 'timer/Timer';
 import FinishedTimeEntries from 'timer/FinishedTimeEntries';
 
 import timeEntryApi from './timer.api';
+
+import { actions as timeEntryActions } from 'timer/time_entries.redux';
 
 const initialTimeEntry = {
     description: '',
@@ -15,7 +18,7 @@ const initialTimeEntry = {
     user: { id: 1, name: 'testuser', email: 'testing@test.com' }
 };
 
-export default class TimerContainer extends Component {
+class TimerContainer extends Component {
     state = {
         isRunning: false,
         activeTimeEntry: initialTimeEntry,
@@ -43,7 +46,7 @@ export default class TimerContainer extends Component {
         this.getActiveEntries();
 
         // Load existing time entries into state
-        this.getTimeEntries();
+        this.props.getTimeEntries();
     }
 
     start = async () => {
@@ -60,12 +63,6 @@ export default class TimerContainer extends Component {
 
         this.setState({ isRunning: false, timeEntry: initialTimeEntry });
     }
-
-    getTimeEntries = async () => {
-        const timeEntries = await timeEntryApi.getAll();
-
-        if (timeEntries.length) this.setState({ timeEntries });
-    };
 
     getActiveEntries = async () => {
         const entries = await timeEntryApi.active();
@@ -93,9 +90,19 @@ export default class TimerContainer extends Component {
                     onDescriptionChange={this.handleDescriptionChange}
                 />
                 <FinishedTimeEntries
-                    timeEntries={this.state.timeEntries}
+                    timeEntries={this.props.timeEntries}
                 />
             </div>
         );
     }
 }
+
+const mapStateToProps = ({ time_entries }) => ({
+    timeEntries: time_entries.data
+});
+
+const mapDispatchToProps = dispatch => ({
+    getTimeEntries: () => dispatch(timeEntryActions.getAll())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TimerContainer);
