@@ -8,24 +8,18 @@ import FinishedTimeEntries from 'timer/FinishedTimeEntries';
 
 import timeEntryApi from './timer.api';
 
-import { actions as timeEntryActions } from 'timer/time_entries.redux';
+import { actions as timeEntryActions, selectors } from 'timer/time_entries.redux';
 
 const initialTimeEntry = {
     description: '',
     ended_at: null,
-    id: null,
+    id: 'unsaved-time-entry',
     started_at: null,
     user: { id: 1, name: 'testuser', email: 'testing@test.com' }
 };
 
 class TimerContainer extends Component {
-    state = {
-        isRunning: false,
-        activeTimeEntry: initialTimeEntry,
-        timeEntries: []
-    };
-
-    componentDidMount() {
+    oldReimplementComponentDidMount() {
         const socket = new Phoenix.Socket('ws://api.timer.test:4000/socket', {
             transport: WebSocket
         });
@@ -41,68 +35,51 @@ class TimerContainer extends Component {
         channel.join()
             .receive('ok', res => console.log(`Joined channel`, res))
             .receive('error', res => console.log(`Unable to join channel`, res));
+    }
 
-        // Check if we have any active entries on startup
-        this.getActiveEntries();
-
+    componentDidMount = () => {
         // Load existing time entries into state
         this.props.getTimeEntries();
-    }
+    };
 
-    start = async () => {
-        const timeEntry = await timeEntryApi.start({
-            ...this.state.timeEntry,
+    start = () => {
+        this.props.start({
+            ...this.props.activeTimeEntry,
             started_at: moment().toISOString()
         });
-
-        this.setState({ isRunning: true, timeEntry });
     }
 
-    stop = async () => {
-        await timeEntryApi.stop(this.state.timeEntry.id);
-
-        this.setState({ isRunning: false, timeEntry: initialTimeEntry });
-    }
-
-    getActiveEntries = async () => {
-        const entries = await timeEntryApi.active();
-
-        if (entries.length) {
-            this.setState({
-                isRunning: true,
-                timeEntry: entries[0]
-            });
-        }
-    }
+    stop = () => this.props.stop(this.props.activeTimeEntry.id);
 
     handleDescriptionChange = description => {
-        this.setState({ timeEntry: { ...this.state.timeEntry, description } });
+        this.props.update({ ...this.props.activeTimeEntry, description });
     }
 
     render() {
         return (
             <div>
                 <Timer
-                    isRunning={this.state.isRunning}
                     start={this.start}
                     stop={this.stop}
-                    timeEntry={this.state.activeTimeEntry}
+                    timeEntry={this.props.activeTimeEntry}
                     onDescriptionChange={this.handleDescriptionChange}
                 />
-                <FinishedTimeEntries
-                    timeEntries={this.props.timeEntries}
-                />
+                <FinishedTimeEntries timeEntries={this.props.timeEntries} />
             </div>
         );
     }
 }
 
 const mapStateToProps = ({ time_entries }) => ({
-    timeEntries: time_entries.data
+    timeEntries: selectors.finishedTimeEntries(time_entries.data),
+    activeTimeEntry: selectors.getActiveTimeEntry(time_entries.data)
 });
 
 const mapDispatchToProps = dispatch => ({
-    getTimeEntries: () => dispatch(timeEntryActions.getAll())
+    getTimeEntries: () => dispatch(timeEntryActions.getAll()),
+    start: timeEntry => dispatch(timeEntryActions.start(timeEntry)),
+    stop: id => dispatch(timeEntryActions.stop(id)),
+    update: timeEntry => dispatch(timeEntryActions.update(timeEntry))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimerContainer);

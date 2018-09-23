@@ -3,6 +3,8 @@ import { all, fork } from 'redux-saga/effects';
 import { saga as clientSaga } from 'clients/clients.redux';
 import { saga as timeEntriesSaga } from 'timer/time_entries.redux';
 
+console.log(timeEntriesSaga);
+
 export default function* rootSaga() {
     yield all([
         fork(clientSaga),

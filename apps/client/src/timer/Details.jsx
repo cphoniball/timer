@@ -22,12 +22,6 @@ const DetailsElapsedTime = styled(ElapsedTime)`
     margin: auto 20px;
 `;
 
-interface Props {
-    elapsedSeconds: number;
-    timeEntry: TimeEntry;
-    onDescriptionChange(description: string): void;
-}
-
 /**
  * Allows editing the time entry description, start and end times for the
  * currently active time entry.

@@ -10,11 +10,13 @@ export const requestConstants = constant => {
 
 export const requestSaga = (actionSet, fn, getArgs) => {
     return function* (action) {
+        console.log(action);
         try {
             const args = getArgs ? getArgs(action) : [];
             const data = yield call(fn, ...args);
             yield put({ type: actionSet.success, data });
         } catch (error) {
+            console.log(error);
             yield put({ type: actionSet.failed, error });
         }
     }

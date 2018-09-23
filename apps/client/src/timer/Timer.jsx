@@ -71,7 +71,7 @@ class Timer extends Component {
             <TimerPanel>
                 <Details onDescriptionChange={this.props.onDescriptionChange} timeEntry={timeEntry} elapsedSeconds={this.state.elapsedSeconds} />
 
-                {isRunning
+                {timeEntry.started_at
                     ? <Button onClick={this.stop}>Stop Timer</Button>
                     : <Button onClick={start}>Start Timer</Button>
                 }
