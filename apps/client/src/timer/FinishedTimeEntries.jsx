@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import moment from 'moment';
 
+const TIME_FORMAT = 'h:mm a';
+
 // TODO: These are the same as the client conatiners, we can reuse these styles
 const TimeEntryList = styled.ul`
     display: block;
@@ -19,13 +21,18 @@ const TimeEntryListItem = styled.li`
     padding: 10px 12px;
     background-color: ${props => props.theme.color.white};
     box-shadow: 0px 1px 2px ${props => props.theme.color.main}88;
+    clear: both;
+`;
+
+const TimeEntryTime = styled.span`
+    float: right;
+    font-size: ${props => props.theme.font.small.size};
 `;
 
 const TimeEntry = ({ timeEntry }) => (
-    <TimeEntryListItem>
+    <TimeEntryListItem className="clearfix">
         <span>{timeEntry.description}</span>
-        <span>Started: {timeEntry.started_at}</span>
-        <span>Ended: {timeEntry.ended_at}</span>
+        <TimeEntryTime>{moment(timeEntry.started_at).format(TIME_FORMAT)} - {moment(timeEntry.ended_at).format(TIME_FORMAT)}</TimeEntryTime>
     </TimeEntryListItem>
 );
 

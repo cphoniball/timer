@@ -9,7 +9,7 @@ defmodule Timer.Timer do
   alias Timer.Accounts.User
 
   def get_user_time_entries(%User{} = user) do
-    Repo.preload(user, :time_entries)
+    Repo.preload(user, [time_entries: from(t in TimeEntry, order_by: [desc: t.started_at])])
     |> Map.get(:time_entries)
   end
 
@@ -18,7 +18,7 @@ defmodule Timer.Timer do
   'ended_at' time.
   """
   def get_active_time_entries() do
-    Repo.all(from t in TimeEntry, where: not is_nil(t.started_at), where: is_nil(t.ended_at))
+    Repo.all(from t in TimeEntry, where: not is_nil(t.started_at), where: is_nil(t.ended_at), order_by: [desc: t.started_at])
   end
 
   def get_time_entry(id) do

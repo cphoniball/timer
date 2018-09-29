@@ -17,6 +17,9 @@ const theme = {
     font: {
         base: {
             size: '1.6rem'
+        },
+        small: {
+            size: '1.4rem'
         }
     },
     layout: {
