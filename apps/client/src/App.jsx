@@ -15,12 +15,15 @@ import AuthRoute from 'global/routing/AuthRoute';
 import Sidebar from 'navigation/Sidebar';
 import Timer from 'timer/Timer.container';
 
+import timerChannel from 'timer/timer.channel';
+
 import 'bootstrap/scss/bootstrap.scss';
 import 'styles';
 
 import createIconLibrary from 'styles/fontawesome';
 
 createIconLibrary();
+timerChannel();
 
 const App = () => (
     <Provider store={store}>

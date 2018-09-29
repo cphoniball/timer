@@ -31,7 +31,7 @@ const TimeEntry = ({ timeEntry }) => (
 
 const FinishedTimeEntries = ({ timeEntries }) => (
     <TimeEntryList>
-        {timeEntries.map(timeEntry => <TimeEntry timeEntry={timeEntry} />)}
+        {timeEntries.map(timeEntry => <TimeEntry key={timeEntry.id} timeEntry={timeEntry} />)}
     </TimeEntryList>
 );
 

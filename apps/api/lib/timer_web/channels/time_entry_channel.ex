@@ -2,6 +2,7 @@ defmodule TimerWeb.TimeEntryChannel do
   use TimerWeb, :channel
 
   alias Timer.Timer.TimeEntry
+  alias TimerWeb.TimeEntryView
 
   def join("time_entry:lobby", _payload, socket) do
     {:ok, socket}
@@ -14,8 +15,11 @@ defmodule TimerWeb.TimeEntryChannel do
 
   # Borrowing from http://learningelixir.joekain.com/pushing-model-changes-to-a-phoenix-channel/
   def broadcast(event, %TimeEntry{} = time_entry) do
-    payload = %{id: time_entry.id, started_at: time_entry.started_at, ended_at: time_entry.ended_at}
-    TimerWeb.Endpoint.broadcast("time_entry:lobby", event, payload)
+    TimerWeb.Endpoint.broadcast(
+      "time_entry:lobby",
+      event,
+      TimeEntryView.render("time_entry.json", %{time_entry: time_entry})
+    )
   end
 
   # # Channels can be used in a request/response fashion

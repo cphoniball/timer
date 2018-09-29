@@ -1,12 +1,14 @@
 import { takeEvery } from 'redux-saga/effects';
 import { takeOnce } from 'redux/sagas/effects';
 import { requestConstants, requestSaga } from 'redux/helpers';
+import _ from 'lodash';
 
 import timerApi from 'timer/timer.api';
 
 const GET_ALL = requestConstants('timer/time_entries/GET_ALL');
 const START = requestConstants('timer/time_entries/START');
 const STOP = requestConstants('timer/time_entries/STOP');
+const INSERT = 'timer/time_entries/INSERT';
 const UPDATE = 'timer/time_entries/UPDATE';
 
 const initialTimeEntry = {
@@ -36,6 +38,8 @@ export default function(state = initialState, action) {
             return { ...state, isFetching: false, data: [initialTimeEntry, ...action.data] };
         case GET_ALL.failed:
             return { ...state, isFetching: false };
+        case INSERT:
+            return { ...state, data: _.uniqBy([action.time_entry, ...state.data], 'id') };
         case START.success:
             return { ...state, data: [...state.data.filter(entry => entry.id !== 'unsaved-time-entry'), action.data] };
         case STOP.success:
@@ -53,6 +57,7 @@ export const sagas = {
 
 export const actions = {
     getAll: () => ({ type: GET_ALL.start }),
+    insert: time_entry => ({ type: INSERT, time_entry }),
     start: time_entry => ({ type: START.start, time_entry }),
     stop: id => ({ type: STOP.start, id }),
     update: time_entry => ({ type: UPDATE, time_entry })
@@ -65,11 +70,10 @@ export function* saga() {
 }
 
 export const selectors = {
-    // TODO: Pull this into a memoized library like reselect for perf
     getActiveTimeEntry: entries => {
         const activeEntries = entries.filter(entry => entry.started_at && !entry.ended_at);
 
-        return activeEntries.length ? activeEntries[0] : entries.find(entry => entry.id === 'unsaved-time-entry');
+        return activeEntries.length ? activeEntries[0] : (entries.find(entry => entry.id === 'unsaved-time-entry') || initialTimeEntry);
     },
     finishedTimeEntries: entries => {
         return entries.filter(entry => (entry.id !== 'unsaved-time-entry') && entry.ended_at);
